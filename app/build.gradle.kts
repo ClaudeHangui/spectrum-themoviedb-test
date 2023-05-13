@@ -1,7 +1,8 @@
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.kapt")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.android.application)
+    kotlin("android")
+    kotlin("kapt")
 }
 
 android {
@@ -52,8 +53,10 @@ android {
 
 dependencies {
     implementation(libs.bundles.androidx.core.deps)
+    implementation(platform(libs.compose.bom))
     implementation(libs.bundles.jetpack.compose.deps)
     testImplementation(libs.bundles.local.test.deps)
+    androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.bundles.android.test.deps)
-    debugImplementation(libs.bundles.debug.api.deps)
+    debugImplementation(libs.bundles.debug.compose.deps)
 }
