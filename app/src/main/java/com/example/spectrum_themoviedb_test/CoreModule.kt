@@ -4,6 +4,8 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
+import com.example.spectrum_themoviedb_test.data.MovieDbApi
+import com.example.spectrum_themoviedb_test.util.Constants.BASE_URL
 import com.example.spectrum_themoviedb_test.util.InternetStateManager
 import com.example.spectrum_themoviedb_test.util.SdkManager
 import com.google.gson.Gson
@@ -35,6 +37,7 @@ abstract class CoreModule {
             .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
             .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
             .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+
         @Provides
         fun provideLoggingInterceptor(): HttpLoggingInterceptor =
             HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -76,11 +79,20 @@ abstract class CoreModule {
 
         @Provides
         fun provideSdkManager() = SdkManager()
+
         @Provides
-        fun provideInternetStateManager(connectivityManager: ConnectivityManager,
-                                        networkRequest: NetworkRequest.Builder,
-                                        sdkManager: SdkManager) =
+        fun provideInternetStateManager(
+            connectivityManager: ConnectivityManager,
+            networkRequest: NetworkRequest.Builder,
+            sdkManager: SdkManager
+        ) =
             InternetStateManager(connectivityManager, networkRequest, sdkManager)
 
+        @Provides
+        fun provideRestService(retrofitBuilder: Retrofit.Builder): MovieDbApi {
+            return retrofitBuilder.baseUrl(BASE_URL)
+                .build()
+                .create(MovieDbApi::class.java)
+        }
     }
 }
