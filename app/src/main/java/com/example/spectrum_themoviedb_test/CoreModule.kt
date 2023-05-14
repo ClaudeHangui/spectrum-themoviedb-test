@@ -2,6 +2,10 @@ package com.example.spectrum_themoviedb_test
 
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
+import com.example.spectrum_themoviedb_test.util.InternetStateManager
+import com.example.spectrum_themoviedb_test.util.SdkManager
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -26,6 +30,11 @@ abstract class CoreModule {
         fun provideConnectivityManager(@ApplicationContext context: Context): ConnectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
+        @Provides
+        fun provideNetworkRequestBuilder(): NetworkRequest.Builder = NetworkRequest.Builder()
+            .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
+            .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
         @Provides
         fun provideLoggingInterceptor(): HttpLoggingInterceptor =
             HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -64,6 +73,14 @@ abstract class CoreModule {
             .addInterceptor(loggingInterceptor)
             .retryOnConnectionFailure(true)
             .build()
+
+        @Provides
+        fun provideSdkManager() = SdkManager()
+        @Provides
+        fun provideInternetStateManager(connectivityManager: ConnectivityManager,
+                                        networkRequest: NetworkRequest.Builder,
+                                        sdkManager: SdkManager) =
+            InternetStateManager(connectivityManager, networkRequest, sdkManager)
 
     }
 }
