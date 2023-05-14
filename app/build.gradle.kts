@@ -4,6 +4,7 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     alias(libs.plugins.hilt.android)
+    kotlin("plugin.serialization")
 }
 
 android {
@@ -20,6 +21,12 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
+        }
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments["room.schemaLocation"] = "$projectDir/schemas".toString()
+                arguments["room.incremental"] = "true"
+            }
         }
     }
 
@@ -62,6 +69,9 @@ android {
             isReturnDefaultValues = true
         }
     }
+    hilt {
+        enableAggregatingTask = true
+    }
 }
 
 dependencies {
@@ -72,6 +82,7 @@ dependencies {
     implementation(libs.room.ktx)
     implementation(libs.bundles.network.deps)
     implementation(libs.bundles.coroutines.deps)
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
     kapt(libs.hilt.compiler)
     kapt(libs.room.compiler)
     testImplementation(libs.bundles.local.test.deps)

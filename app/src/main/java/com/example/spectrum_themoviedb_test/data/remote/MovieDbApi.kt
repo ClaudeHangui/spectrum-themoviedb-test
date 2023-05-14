@@ -1,5 +1,9 @@
-package com.example.spectrum_themoviedb_test.data
+package com.example.spectrum_themoviedb_test.data.remote
 
+import com.example.spectrum_themoviedb_test.data.GenreApiResponse
+import com.example.spectrum_themoviedb_test.data.MovieDetailApiResponse
+import com.example.spectrum_themoviedb_test.data.MoviesApiResponse
+import com.example.spectrum_themoviedb_test.data.PopularMoviesApiResponse
 import com.example.spectrum_themoviedb_test.util.Constants.API_KEY
 import com.skydoves.sandwich.ApiResponse
 import retrofit2.http.GET

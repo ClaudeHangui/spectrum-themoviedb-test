@@ -4,8 +4,11 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
-import com.example.spectrum_themoviedb_test.data.MovieDbApi
+import androidx.room.Room
+import com.example.spectrum_themoviedb_test.data.local.SpectrumMovieDb
+import com.example.spectrum_themoviedb_test.data.remote.MovieDbApi
 import com.example.spectrum_themoviedb_test.util.Constants.BASE_URL
+import com.example.spectrum_themoviedb_test.util.Constants.DB_NAME
 import com.example.spectrum_themoviedb_test.util.InternetStateManager
 import com.example.spectrum_themoviedb_test.util.SdkManager
 import com.google.gson.Gson
@@ -94,5 +97,16 @@ abstract class CoreModule {
                 .build()
                 .create(MovieDbApi::class.java)
         }
+
+        @Provides
+        fun provideAppDatabase(@ApplicationContext appContext: Context) =
+            Room.databaseBuilder(
+                appContext,
+                SpectrumMovieDb::class.java,
+                DB_NAME
+            ).fallbackToDestructiveMigration().build()
+
+        @Provides
+        fun provideMovieDao(database: SpectrumMovieDb) = database.moviesDao()
     }
 }
