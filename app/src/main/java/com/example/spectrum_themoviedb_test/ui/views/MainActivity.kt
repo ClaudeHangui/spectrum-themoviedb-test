@@ -1,4 +1,4 @@
-package com.example.spectrum_themoviedb_test
+package com.example.spectrum_themoviedb_test.ui.views
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
