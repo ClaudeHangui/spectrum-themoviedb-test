@@ -9,6 +9,8 @@ import com.example.spectrum_themoviedb_test.data.local.SpectrumMovieDb
 import com.example.spectrum_themoviedb_test.data.remote.MovieDbApi
 import com.example.spectrum_themoviedb_test.util.Constants.BASE_URL
 import com.example.spectrum_themoviedb_test.util.Constants.DB_NAME
+import com.example.spectrum_themoviedb_test.util.DateFormatterHelper
+import com.example.spectrum_themoviedb_test.util.DateWrapper
 import com.example.spectrum_themoviedb_test.util.InternetStateManager
 import com.example.spectrum_themoviedb_test.util.ResourceHelper
 import com.example.spectrum_themoviedb_test.util.SdkManager
@@ -114,5 +116,11 @@ abstract class CoreModule {
         @Provides
         fun provideResourceHelper(@ApplicationContext context: Context) =
             ResourceHelper(context)
+
+        @Provides
+        fun provideDateFormatterHelper() = DateFormatterHelper()
+
+        @Provides
+        fun provideDateWrapper() = DateWrapper()
     }
 }

@@ -41,6 +41,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+        isCoreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
         jvmTarget = "11"
@@ -80,9 +81,11 @@ dependencies {
     implementation(libs.bundles.network.deps)
     implementation(libs.bundles.coroutines.deps)
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.2.2")
     kapt(libs.hilt.compiler)
     kapt(libs.room.compiler)
     testImplementation(libs.bundles.local.test.deps)
+    testImplementation("org.mockito:mockito-inline:5.0.0")
     testRuntimeOnly(libs.junit.jupiter.engine)
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.bundles.android.test.deps)

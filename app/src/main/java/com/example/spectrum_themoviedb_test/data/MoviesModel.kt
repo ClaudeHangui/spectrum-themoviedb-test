@@ -11,13 +11,13 @@ data class MoviesApiResponse(
     override val results: List<MovieItem>,
     override val total_results: Int,
     override val total_pages: Int,
-    ): BaseApiResponse {
-    @Serializable
-    data class Dates(
-        val maximum: String,
-        val minimum: String
-    )
-}
+    ): BaseApiResponse
+
+@Serializable
+data class Dates(
+    val maximum: String,
+    val minimum: String
+)
 @Serializable
 data class PopularMoviesApiResponse(
     override val page: Int,

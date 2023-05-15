@@ -20,5 +20,7 @@ interface MoviesDao {
 
     @Query("select * from Movie")
     fun getAllBookmarkedMovies(): List<MovieItem>
+    @Query("select name from MovieGenre where id = :id")
+    fun getGenre(id: Int): String
 
 }

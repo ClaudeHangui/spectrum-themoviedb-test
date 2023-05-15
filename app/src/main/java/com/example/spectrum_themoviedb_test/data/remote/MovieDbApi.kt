@@ -13,7 +13,7 @@ interface MovieDbApi {
     @GET("3/movie/now_playing")
     suspend fun getNowPlayingMovies(
         @Query("page") page: Int
-    ): ApiResponse<MoviesApiResponse>
+    ): MoviesApiResponse?
 
     @GET("3/movie/popular")
     suspend fun getPopularMovies(
