@@ -31,6 +31,7 @@ import java.util.concurrent.TimeUnit
 abstract class CoreModule {
     companion object {
         private const val TIMEOUT = 60L
+        private const val API_KEY = "api_key"
 
         @Provides
         fun provideConnectivityManager(@ApplicationContext context: Context): ConnectivityManager =
@@ -47,9 +48,9 @@ abstract class CoreModule {
             HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
 
         @Provides
-        fun provideApiInterceptor(): Interceptor = Interceptor { chain: Interceptor.Chain ->
+        fun provideApiInterceptor(resourceHelper: ResourceHelper): Interceptor = Interceptor { chain: Interceptor.Chain ->
             var request = chain.request()
-            val url = request.url.newBuilder().build()
+            val url = request.url.newBuilder().addQueryParameter(API_KEY, resourceHelper.apiKey).build()
             request = request.newBuilder().url(url).build()
             chain.proceed(request)
         }
