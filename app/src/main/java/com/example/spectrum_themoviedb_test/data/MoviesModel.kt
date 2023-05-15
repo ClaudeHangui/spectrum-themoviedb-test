@@ -2,7 +2,9 @@ package com.example.spectrum_themoviedb_test.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class MoviesApiResponse(
     val dates: Dates,
     override val page: Int,
@@ -10,11 +12,13 @@ data class MoviesApiResponse(
     override val total_results: Int,
     override val total_pages: Int,
     ): BaseApiResponse {
+    @Serializable
     data class Dates(
         val maximum: String,
         val minimum: String
     )
 }
+@Serializable
 data class PopularMoviesApiResponse(
     override val page: Int,
     override val results: List<MovieItem>,
@@ -30,6 +34,7 @@ interface BaseApiResponse {
 }
 
 @Entity(tableName = "Movie")
+@Serializable
 data class MovieItem(
     val adult: Boolean,
     val backdrop_path: String,

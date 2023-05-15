@@ -10,6 +10,7 @@ import com.example.spectrum_themoviedb_test.data.remote.MovieDbApi
 import com.example.spectrum_themoviedb_test.util.Constants.BASE_URL
 import com.example.spectrum_themoviedb_test.util.Constants.DB_NAME
 import com.example.spectrum_themoviedb_test.util.InternetStateManager
+import com.example.spectrum_themoviedb_test.util.ResourceHelper
 import com.example.spectrum_themoviedb_test.util.SdkManager
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -108,5 +109,9 @@ abstract class CoreModule {
 
         @Provides
         fun provideMovieDao(database: SpectrumMovieDb) = database.moviesDao()
+
+        @Provides
+        fun provideResourceHelper(@ApplicationContext context: Context) =
+            ResourceHelper(context)
     }
 }

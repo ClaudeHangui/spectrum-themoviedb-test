@@ -69,9 +69,6 @@ android {
             isReturnDefaultValues = true
         }
     }
-    hilt {
-        enableAggregatingTask = true
-    }
 }
 
 dependencies {
