@@ -3,7 +3,7 @@ package com.example.spectrum_themoviedb_test.data
 data class MovieDetailApiResponse(
     val adult: Boolean,
     val backdrop_path: String,
-    val belongs_to_collection: Any,
+    val belongs_to_collection: Any?,
     val budget: Int,
     val genres: List<Genre>,
     val homepage: String,

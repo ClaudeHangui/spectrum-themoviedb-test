@@ -5,8 +5,13 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import androidx.room.Room
+import com.example.spectrum_themoviedb_test.data.local.MoviesDao
 import com.example.spectrum_themoviedb_test.data.local.SpectrumMovieDb
+import com.example.spectrum_themoviedb_test.data.mapper.MovieDetailMapper
+import com.example.spectrum_themoviedb_test.data.mapper.MovieListMapper
+import com.example.spectrum_themoviedb_test.data.remote.HttpFailureFactory
 import com.example.spectrum_themoviedb_test.data.remote.MovieDbApi
+import com.example.spectrum_themoviedb_test.data.remote.RemoteDataStore
 import com.example.spectrum_themoviedb_test.util.Constants.BASE_URL
 import com.example.spectrum_themoviedb_test.util.Constants.DB_NAME
 import com.example.spectrum_themoviedb_test.util.DateFormatterHelper
@@ -118,9 +123,26 @@ abstract class CoreModule {
             ResourceHelper(context)
 
         @Provides
-        fun provideDateFormatterHelper() = DateFormatterHelper()
+        fun provideDateFormatterHelper(wrapper: DateWrapper) = DateFormatterHelper(wrapper)
 
         @Provides
         fun provideDateWrapper() = DateWrapper()
+
+        @Provides
+        fun provideHttpFailureFactory() = HttpFailureFactory()
+
+        @Provides
+        fun provideMovieListMapper(dao: MoviesDao, dateFormatterHelper: DateFormatterHelper) =
+            MovieListMapper(dao, dateFormatterHelper)
+
+        @Provides
+        fun provideMovieDetailMapper(dateFormatterHelper: DateFormatterHelper) =
+            MovieDetailMapper(dateFormatterHelper)
+
+        @Provides
+        fun provideRemoteDataStore(
+            api: MovieDbApi,
+            httpFailureFactory: HttpFailureFactory
+        ) = RemoteDataStore(api,  httpFailureFactory)
     }
 }
