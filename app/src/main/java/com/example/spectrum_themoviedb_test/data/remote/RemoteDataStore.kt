@@ -64,4 +64,13 @@ class RemoteDataStore @Inject constructor(
             ResultState.Failure(httpFailureFactory.produceFailure(e), null)
         }
     }
+
+    suspend fun fetchPopularMovies(page: Int): ResultState<PopularMoviesApiResponse?> {
+        return try {
+            val apiResponse = api.getPopularMovies(page)
+            ResultState.Success(apiResponse)
+        } catch (e: Exception) {
+            ResultState.Failure(httpFailureFactory.produceFailure(e), null)
+        }
+    }
 }

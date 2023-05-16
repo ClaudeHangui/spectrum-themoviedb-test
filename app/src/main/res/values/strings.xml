@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">spectrum-themoviedb-test</string>
     <string name="api_key">0e7274f05c36db12cbe71d9ab0393d47</string>
+    <string name="screen_title_now_playing">Now</string>
+    <string name="screen_title_popular">Popular\n</string>
+    <string name="screen_title_top_rated">Top Rated\n</string>
+    <string name="screen_title_upcoming">Upcoming</string>
 </resources>

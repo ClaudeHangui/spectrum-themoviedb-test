@@ -92,4 +92,17 @@ class MoviesRepository @Inject constructor(
             is ResultState.Failure -> {}
         }
     }
+
+    suspend fun getPopularMovies(movieId: Int): ResultState<List<UiMovieItem>> {
+        return when (val result = remoteDataStore.fetchPopularMovies(movieId)) {
+            is ResultState.Success -> {
+                val response = result.data
+                ResultState.Success(movieListMapper.mapToUIModel(response))
+            }
+
+            is ResultState.Failure -> {
+                ResultState.Failure(result.failure, null)
+            }
+        }
+    }
 }
