@@ -9,14 +9,12 @@ import com.example.spectrum_themoviedb_test.data.MovieItem
 import com.example.spectrum_themoviedb_test.data.MoviesApiResponse
 import com.example.spectrum_themoviedb_test.data.MoviesRepository
 import com.example.spectrum_themoviedb_test.data.ResultState
-import com.example.spectrum_themoviedb_test.data.UiMovieDetail
-import com.example.spectrum_themoviedb_test.data.UiMovieItem
+import com.example.spectrum_themoviedb_test.data.model.UiMovieDetail
+import com.example.spectrum_themoviedb_test.data.model.UiMovieItem
 import com.example.spectrum_themoviedb_test.data.local.MoviesDao
 import com.example.spectrum_themoviedb_test.data.mapper.MovieDetailMapper
 import com.example.spectrum_themoviedb_test.data.mapper.MovieListMapper
 import com.example.spectrum_themoviedb_test.data.remote.FailureType
-import com.example.spectrum_themoviedb_test.data.remote.HttpFailureFactory
-import com.example.spectrum_themoviedb_test.data.remote.MovieDbApi
 import com.example.spectrum_themoviedb_test.data.remote.RemoteDataStore
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -26,9 +24,6 @@ import org.amshove.kluent.`should be instance of`
 import org.amshove.kluent.shouldBeInstanceOf
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertDoesNotThrow
-import org.junit.jupiter.api.assertThrows
-import java.io.IOException
 
 internal class MoviesRepositoryTest {
     @MockK

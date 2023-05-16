@@ -1,7 +1,7 @@
 package com.example.spectrum_themoviedb_test.data.mapper
 
 import com.example.spectrum_themoviedb_test.data.MovieDetailApiResponse
-import com.example.spectrum_themoviedb_test.data.UiMovieDetail
+import com.example.spectrum_themoviedb_test.data.model.UiMovieDetail
 import com.example.spectrum_themoviedb_test.util.DateFormatterHelper
 import javax.inject.Inject
 

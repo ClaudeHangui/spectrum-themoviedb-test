@@ -1,4 +1,4 @@
-package com.example.spectrum_themoviedb_test.data
+package com.example.spectrum_themoviedb_test.data.model
 
 data class UiMovieItem(
     val movieId: Int,

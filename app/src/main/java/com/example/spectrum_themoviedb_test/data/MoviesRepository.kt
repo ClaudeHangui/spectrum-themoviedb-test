@@ -3,6 +3,8 @@ package com.example.spectrum_themoviedb_test.data
 import com.example.spectrum_themoviedb_test.data.local.MoviesDao
 import com.example.spectrum_themoviedb_test.data.mapper.MovieDetailMapper
 import com.example.spectrum_themoviedb_test.data.mapper.MovieListMapper
+import com.example.spectrum_themoviedb_test.data.model.UiMovieDetail
+import com.example.spectrum_themoviedb_test.data.model.UiMovieItem
 import com.example.spectrum_themoviedb_test.data.remote.RemoteDataStore
 import javax.inject.Inject
 
