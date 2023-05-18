@@ -33,7 +33,9 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun NowPlayingScreen(viewModel: MoviesVM = hiltViewModel()) {
+fun NowPlayingScreen(navigateMovieDetail: (Int) -> Unit,
+                     popBackStack: () -> Unit,
+                     viewModel: MoviesVM = hiltViewModel()) {
     val myScaffoldState = rememberScaffoldState()
     val state by viewModel.nowPlayingState.collectAsStateWithLifecycle()
     val paginationState by viewModel.paginationState.collectAsStateWithLifecycle()
@@ -65,7 +67,9 @@ fun NowPlayingScreen(viewModel: MoviesVM = hiltViewModel()) {
                     items(movies) { movieItem ->
                         MovieCard(
                             movieItem = movieItem,
-                            onClick = { })
+                            onClick = {
+                                navigateMovieDetail(movieItem.movieId)
+                            })
                     }
                     item {
                         if (paginationState.isLoading) {
