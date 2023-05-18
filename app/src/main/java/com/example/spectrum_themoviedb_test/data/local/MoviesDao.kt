@@ -2,6 +2,7 @@ package com.example.spectrum_themoviedb_test.data.local
 
 import androidx.room.Dao
 import androidx.room.Delete
+import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Upsert
 import com.example.spectrum_themoviedb_test.data.Genre
@@ -9,7 +10,7 @@ import com.example.spectrum_themoviedb_test.data.MovieItem
 
 @Dao
 interface MoviesDao {
-    @Upsert
+    @Insert(onConflict = androidx.room.OnConflictStrategy.REPLACE)
     fun insertAllGenres(genres: List<Genre>)
 
     @Upsert

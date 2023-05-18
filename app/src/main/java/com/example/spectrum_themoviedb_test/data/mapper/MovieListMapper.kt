@@ -23,8 +23,8 @@ class MovieListMapper @Inject constructor(
 
                     UiMovieItem(
                         movie.id,
-                        movie.title,
                         movie.poster_path,
+                        movie.title,
                         movie.vote_average,
                         movie.vote_count,
                         formattedDate,
@@ -35,6 +35,6 @@ class MovieListMapper @Inject constructor(
         } ?: listOf(UiMovieItem.NO_DATA)
 
     companion object {
-        const val DATE_PATTERN = "dd/mmm/yyyy"
+        const val DATE_PATTERN = "dd/MMM/yyyy"
     }
 }

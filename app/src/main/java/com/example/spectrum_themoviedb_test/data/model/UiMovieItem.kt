@@ -2,7 +2,7 @@ package com.example.spectrum_themoviedb_test.data.model
 
 data class UiMovieItem(
     val movieId: Int,
-    val posterPath: String,
+    val posterPath: String?,
     val title: String,
     val voteAverage: Double,
     val voteCount: Int,

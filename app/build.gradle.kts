@@ -82,6 +82,7 @@ dependencies {
     implementation(libs.bundles.coroutines.deps)
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.2.2")
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
     kapt(libs.hilt.compiler)
     kapt(libs.room.compiler)
     testImplementation(libs.bundles.local.test.deps)

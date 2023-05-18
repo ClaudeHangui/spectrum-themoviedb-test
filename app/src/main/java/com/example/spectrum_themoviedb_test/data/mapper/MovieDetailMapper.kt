@@ -22,6 +22,6 @@ class MovieDetailMapper @Inject constructor(private val dateFormatterHelper: Dat
     }
 
     companion object {
-        const val DATE_PATTERN = "dd/mmm/yyyy"
+        const val DATE_PATTERN = "dd/MMM/yyyy"
     }
 }

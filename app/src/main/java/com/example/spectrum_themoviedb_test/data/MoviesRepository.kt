@@ -5,7 +5,11 @@ import com.example.spectrum_themoviedb_test.data.mapper.MovieDetailMapper
 import com.example.spectrum_themoviedb_test.data.mapper.MovieListMapper
 import com.example.spectrum_themoviedb_test.data.model.UiMovieDetail
 import com.example.spectrum_themoviedb_test.data.model.UiMovieItem
-import com.example.spectrum_themoviedb_test.data.remote.RemoteDataStore
+import com.example.spectrum_themoviedb_test.data.remote.MovieDbApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 
@@ -13,96 +17,43 @@ class MoviesRepository @Inject constructor(
     private val dao: MoviesDao,
     private val movieListMapper: MovieListMapper,
     private val movieDetailMapper: MovieDetailMapper,
-    private val remoteDataStore: RemoteDataStore
+    private val api: MovieDbApi
 ) {
 
 
-    suspend fun fetchNowPlayingMovies(page: Int): ResultState<List<UiMovieItem>> {
-        return when (val result = remoteDataStore.fetchNowPlayingMovies(page)) {
-            is ResultState.Success -> {
-                val response = result.data
-                ResultState.Success(movieListMapper.mapToUIModel(response))
-            }
+    fun fetchNowPlayingMovies(page: Int): Flow<List<UiMovieItem>> = flow {
+        val apiResponse = api.getNowPlayingMovies(page)
+        val mapResult = movieListMapper.mapToUIModel(apiResponse)
+        emit(mapResult)
+    }.flowOn(Dispatchers.IO)
 
-            is ResultState.Failure -> {
-                ResultState.Failure(result.failure, null)
-            }
-        }
+    suspend fun fetchTopRatedMovies(page: Int): List<UiMovieItem> {
+        val apiResponse = api.getTopRatedMovies(page)
+        return movieListMapper.mapToUIModel(apiResponse)
     }
 
-    suspend fun fetchTopRatedMovies(page: Int): ResultState<List<UiMovieItem>> {
-        return when (val result = remoteDataStore.fetchTopRatedMovies(page)) {
-            is ResultState.Success -> {
-                val response = result.data
-                ResultState.Success(movieListMapper.mapToUIModel(response))
-            }
-
-            is ResultState.Failure -> {
-                ResultState.Failure(result.failure, null)
-            }
-        }
+    suspend fun fetchUpcomingVideos(page: Int): List<UiMovieItem> {
+        val apiResponse = api.getUpComing(page)
+        return movieListMapper.mapToUIModel(apiResponse)
     }
 
-    suspend fun fetchUpcomingVideos(page: Int): ResultState<List<UiMovieItem>> {
-        return when (val result = remoteDataStore.fetchUpcomingVideos(page)) {
-            is ResultState.Success -> {
-                val response = result.data
-                ResultState.Success(movieListMapper.mapToUIModel(response))
-            }
-
-            is ResultState.Failure -> {
-                ResultState.Failure(result.failure, null)
-            }
-        }
+    suspend fun fetchSearchMovies(query: String, page: Int): List<UiMovieItem> {
+        val apiResponse = api.getSearchedMovies(query, page)
+        return movieListMapper.mapToUIModel(apiResponse)
     }
 
-    suspend fun fetchSearchMovies(query: String, page: Int): ResultState<List<UiMovieItem>> {
-        return when (val result = remoteDataStore.fetchSearchMovies(query, page)) {
-            is ResultState.Success -> {
-                val response = result.data
-                ResultState.Success(movieListMapper.mapToUIModel(response))
-            }
-
-            is ResultState.Failure -> {
-                ResultState.Failure(result.failure, null)
-            }
-        }
-    }
-
-    suspend fun fetchMovieDetail(movieId: Int): ResultState<UiMovieDetail> {
-        return when (val result = remoteDataStore.fetchMovieDetail(movieId)) {
-            is ResultState.Success -> {
-                val response = result.data
-                ResultState.Success(movieDetailMapper.mapToUIModel(response))
-            }
-
-            is ResultState.Failure -> {
-                ResultState.Failure(result.failure, null)
-            }
-        }
+    suspend fun fetchMovieDetail(movieId: Int): UiMovieDetail {
+        val apiResponse = api.getMovieDetail(movieId)
+        return movieDetailMapper.mapToUIModel(apiResponse)
     }
 
     suspend fun fetchMovieGenres() {
-        when (val result = remoteDataStore.fetchMovieGenres()) {
-            is ResultState.Success -> {
-                val response = result.data
-                dao.insertAllGenres(response.genres)
-            }
-
-            is ResultState.Failure -> {}
-        }
+        val apiResponse = api.getMovieGenres()
+        dao.insertAllGenres(apiResponse.genres)
     }
 
-    suspend fun getPopularMovies(movieId: Int): ResultState<List<UiMovieItem>> {
-        return when (val result = remoteDataStore.fetchPopularMovies(movieId)) {
-            is ResultState.Success -> {
-                val response = result.data
-                ResultState.Success(movieListMapper.mapToUIModel(response))
-            }
-
-            is ResultState.Failure -> {
-                ResultState.Failure(result.failure, null)
-            }
-        }
+    suspend fun getPopularMovies(movieId: Int): List<UiMovieItem> {
+        val apiResponse = api.getPopularMovies(movieId)
+        return movieListMapper.mapToUIModel(apiResponse)
     }
 }
