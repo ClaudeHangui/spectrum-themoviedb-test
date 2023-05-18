@@ -1,4 +1,4 @@
-package com.example.spectrum_themoviedb_test.data
+package com.example.spectrum_themoviedb_test.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

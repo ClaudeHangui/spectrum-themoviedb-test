@@ -1,8 +1,11 @@
 package com.example.spectrum_themoviedb_test.ui.homepage.screens
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -10,63 +13,83 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material.Surface
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
+import androidx.compose.material.Scaffold
+import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.spectrum_themoviedb_test.ui.MoviesVM
+import com.example.spectrum_themoviedb_test.ui.homepage.components.HomeScreenState
+import com.example.spectrum_themoviedb_test.ui.homepage.components.InfiniteListHandler
 import com.example.spectrum_themoviedb_test.ui.homepage.components.MovieCard
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @OptIn(ExperimentalFoundationApi::class)
-
 @Composable
 fun NowPlayingScreen(viewModel: MoviesVM = hiltViewModel()) {
-    val scrollState = rememberScrollState()
-    Surface(modifier = Modifier.fillMaxSize()) {
+    val myScaffoldState = rememberScaffoldState()
+    val state by viewModel.nowPlayingState.collectAsStateWithLifecycle()
+    val paginationState by viewModel.paginationState.collectAsStateWithLifecycle()
+    val refreshState by viewModel.isRefresh.collectAsStateWithLifecycle()
+    val lazyListState = rememberLazyStaggeredGridState()
 
-    }
-    /*
-    val moviesState by remember {
-        viewModel.nowPlayingUiState
-    }
-    */
-    val state by viewModel.nowPlayingUiState.collectAsState()
+    Scaffold(scaffoldState = myScaffoldState) { paddingValues ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues = paddingValues)
+                .background(color = Color.LightGray)
+        ) {
+            SwipeRefresh(
+                state = rememberSwipeRefreshState(isRefreshing = refreshState),
+                onRefresh = { viewModel.refreshMovieList() }) {
+                LazyVerticalStaggeredGrid(
+                    columns = StaggeredGridCells.Fixed(2),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .padding(6.dp),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalItemSpacing = 10.dp,
+                    state = lazyListState,
+                ) {
+                    val movies = state.movies
+                    Log.e("NowPlayingScreen", "total number of pages: ${state.nextPageToView}")
+                    items(movies) { movieItem ->
+                        MovieCard(
+                            movieItem = movieItem,
+                            onClick = { })
+                    }
+                    item {
+                        if (paginationState.isLoading) {
+                            Log.e("NowPlayingScreen", "Loading...")
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                CircularProgressIndicator()
+                            }
+                        }
+                    }
+                }
 
+                InfiniteListHandler(lazyListState = lazyListState) {
+                    viewModel.loadMoreMovies()
+                }
 
-    state.let { movies ->
-        println("NowPlayingScreen: moviesState.result.size = ${movies}")
-        LazyVerticalStaggeredGrid (
-            columns = StaggeredGridCells.Fixed(2),
-            modifier = Modifier.fillMaxWidth()
-                .wrapContentHeight()
-                .padding(6.dp)
-            ,
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
-            verticalItemSpacing = 10.dp
-        ){
-            items(movies.result) { movieItem ->
-                MovieCard(movieItem = movieItem, onClick = { })
             }
+
+            HomeScreenState()
         }
-    }
 
-    /*
-    moviesState.failureType.let {
-        println("NowPlayingScreen: moviesState.failureType = $it")
     }
-    */
-
-    /*
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Text(text = stringResource(id = R.string.screen_title_now_playing))
-    }
-    */
 }

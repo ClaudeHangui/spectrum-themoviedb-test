@@ -11,7 +11,6 @@ import com.example.spectrum_themoviedb_test.data.mapper.MovieDetailMapper
 import com.example.spectrum_themoviedb_test.data.mapper.MovieListMapper
 import com.example.spectrum_themoviedb_test.data.remote.HttpFailureFactory
 import com.example.spectrum_themoviedb_test.data.remote.MovieDbApi
-import com.example.spectrum_themoviedb_test.data.remote.RemoteDataStore
 import com.example.spectrum_themoviedb_test.util.Constants.BASE_URL
 import com.example.spectrum_themoviedb_test.util.Constants.DB_NAME
 import com.example.spectrum_themoviedb_test.util.DateFormatterHelper
@@ -138,11 +137,5 @@ abstract class CoreModule {
         @Provides
         fun provideMovieDetailMapper(dateFormatterHelper: DateFormatterHelper) =
             MovieDetailMapper(dateFormatterHelper)
-
-        @Provides
-        fun provideRemoteDataStore(
-            api: MovieDbApi,
-            httpFailureFactory: HttpFailureFactory
-        ) = RemoteDataStore(api,  httpFailureFactory)
     }
 }

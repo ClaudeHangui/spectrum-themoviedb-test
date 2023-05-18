@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Upsert
 import com.example.spectrum_themoviedb_test.data.Genre
-import com.example.spectrum_themoviedb_test.data.MovieItem
+import com.example.spectrum_themoviedb_test.data.model.MovieItem
 
 @Dao
 interface MoviesDao {

@@ -3,6 +3,7 @@ package com.example.spectrum_themoviedb_test.data
 import com.example.spectrum_themoviedb_test.data.local.MoviesDao
 import com.example.spectrum_themoviedb_test.data.mapper.MovieDetailMapper
 import com.example.spectrum_themoviedb_test.data.mapper.MovieListMapper
+import com.example.spectrum_themoviedb_test.data.mapper.MoviesModel
 import com.example.spectrum_themoviedb_test.data.model.UiMovieDetail
 import com.example.spectrum_themoviedb_test.data.model.UiMovieItem
 import com.example.spectrum_themoviedb_test.data.remote.MovieDbApi
@@ -21,12 +22,13 @@ class MoviesRepository @Inject constructor(
 ) {
 
 
-    fun fetchNowPlayingMovies(page: Int): Flow<List<UiMovieItem>> = flow {
+    fun fetchNowPlayingMovies(page: Int): Flow<MoviesModel> = flow {
         val apiResponse = api.getNowPlayingMovies(page)
         val mapResult = movieListMapper.mapToUIModel(apiResponse)
         emit(mapResult)
     }.flowOn(Dispatchers.IO)
 
+    /*
     suspend fun fetchTopRatedMovies(page: Int): List<UiMovieItem> {
         val apiResponse = api.getTopRatedMovies(page)
         return movieListMapper.mapToUIModel(apiResponse)
@@ -41,6 +43,7 @@ class MoviesRepository @Inject constructor(
         val apiResponse = api.getSearchedMovies(query, page)
         return movieListMapper.mapToUIModel(apiResponse)
     }
+    */
 
     suspend fun fetchMovieDetail(movieId: Int): UiMovieDetail {
         val apiResponse = api.getMovieDetail(movieId)
@@ -52,8 +55,10 @@ class MoviesRepository @Inject constructor(
         dao.insertAllGenres(apiResponse.genres)
     }
 
+    /*
     suspend fun getPopularMovies(movieId: Int): List<UiMovieItem> {
         val apiResponse = api.getPopularMovies(movieId)
         return movieListMapper.mapToUIModel(apiResponse)
     }
+    */
 }
