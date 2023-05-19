@@ -45,10 +45,11 @@ class MoviesRepository @Inject constructor(
     }
     */
 
-    suspend fun fetchMovieDetail(movieId: Int): UiMovieDetail {
+    fun fetchMovieDetail(movieId: Int): Flow<UiMovieDetail> = flow {
         val apiResponse = api.getMovieDetail(movieId)
-        return movieDetailMapper.mapToUIModel(apiResponse)
-    }
+        val mapResult = movieDetailMapper.mapToUIModel(apiResponse)
+        emit(mapResult)
+    }.flowOn(Dispatchers.IO)
 
     suspend fun fetchMovieGenres() {
         val apiResponse = api.getMovieGenres()

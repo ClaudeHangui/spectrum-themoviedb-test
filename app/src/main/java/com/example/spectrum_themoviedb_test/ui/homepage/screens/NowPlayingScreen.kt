@@ -24,6 +24,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import com.example.spectrum_themoviedb_test.ui.Destinations
 import com.example.spectrum_themoviedb_test.ui.MoviesVM
 import com.example.spectrum_themoviedb_test.ui.homepage.components.HomeScreenState
 import com.example.spectrum_themoviedb_test.ui.homepage.components.InfiniteListHandler
@@ -33,8 +35,7 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun NowPlayingScreen(navigateMovieDetail: (Int) -> Unit,
-                     popBackStack: () -> Unit,
+fun NowPlayingScreen(navController: NavController,
                      viewModel: MoviesVM = hiltViewModel()) {
     val myScaffoldState = rememberScaffoldState()
     val state by viewModel.nowPlayingState.collectAsStateWithLifecycle()
@@ -68,7 +69,8 @@ fun NowPlayingScreen(navigateMovieDetail: (Int) -> Unit,
                         MovieCard(
                             movieItem = movieItem,
                             onClick = {
-                                navigateMovieDetail(movieItem.movieId)
+                                navController.navigate(Destinations.MovieDetailScreen.route + "/${movieItem.movieId}")
+                                //navigateMovieDetail(movieItem.movieId)
                             })
                     }
                     item {

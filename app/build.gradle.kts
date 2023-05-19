@@ -85,7 +85,8 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.0")
     implementation("com.google.accompanist:accompanist-swiperefresh:0.20.0")
-
+    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.1")
+    implementation("com.google.accompanist:accompanist-navigation-animation:0.30.0")
     kapt(libs.hilt.compiler)
     kapt(libs.room.compiler)
     testImplementation(libs.bundles.local.test.deps)

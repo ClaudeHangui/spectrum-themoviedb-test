@@ -9,15 +9,17 @@ class MovieDetailMapper @Inject constructor(private val dateFormatterHelper: Dat
     fun mapToUIModel(movieDetail: MovieDetailApiResponse): UiMovieDetail {
         return UiMovieDetail(
             movieId = movieDetail.id,
-            posterPath = movieDetail.poster_path,
             title = movieDetail.title,
+            backDropPath = movieDetail.backdrop_path,
+            posterPath = movieDetail.poster_path,
             voteAverage = movieDetail.vote_average,
             voteCount = movieDetail.vote_count,
             releaseDate = dateFormatterHelper.formatDate(movieDetail.release_date, DATE_PATTERN),
             genre = movieDetail.genres.map { it.name },
             overview = movieDetail.overview,
-            backDropPath = movieDetail.backdrop_path,
-            status = movieDetail.status
+            status = movieDetail.status,
+            tagLine = movieDetail.tagline,
+            spokenLanguages = movieDetail.spoken_languages.map { it.english_name }
         )
     }
 
