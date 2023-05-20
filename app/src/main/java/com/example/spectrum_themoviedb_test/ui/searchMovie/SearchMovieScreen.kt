@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.spectrum_themoviedb_test.ui.Destinations
+import com.example.spectrum_themoviedb_test.ui.homepage.components.InfiniteListHandler
 import com.example.spectrum_themoviedb_test.ui.homepage.components.MovieCard
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -58,6 +59,7 @@ fun SearchMovieScreen(navigateBack: () -> Unit, viewModel: SearchViewModel = hil
     val searchMovie = remember { mutableStateOf(TextFieldValue("")) }
     val lazyListState = rememberLazyStaggeredGridState()
     val state by viewModel.searchedMoviesState.collectAsStateWithLifecycle()
+    val paginationState by viewModel.paginationState.collectAsStateWithLifecycle()
 
     Box(
         modifier = Modifier
@@ -98,7 +100,7 @@ fun SearchMovieScreen(navigateBack: () -> Unit, viewModel: SearchViewModel = hil
                             //navigateMovieDetail(movieItem.movieId)
                         })
                 }
-                /*
+
                 item {
                     if (paginationState.isLoading) {
                         Log.e("NowPlayingScreen", "Loading...")
@@ -112,7 +114,10 @@ fun SearchMovieScreen(navigateBack: () -> Unit, viewModel: SearchViewModel = hil
                         }
                     }
                 }
-                */
+            }
+
+            InfiniteListHandler(lazyListState = lazyListState) {
+                viewModel.loadMoreMovies()
             }
         }
 

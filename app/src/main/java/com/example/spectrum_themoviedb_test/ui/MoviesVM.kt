@@ -70,7 +70,7 @@ class MoviesVM @Inject constructor(
                     paginationState.copy(
                         isLoading = false,
                         totalPages = if (_paginationState.value.totalPages <= response.totalPages) response.totalPages else _paginationState.value.totalPages,
-                        endReached = response.data.isEmpty() || _nowPlayingState.value.nextPageToView >= response.totalPages
+                        endReached = response.data.isEmpty() || _nowPlayingState.value.nextPageToView > response.totalPages
                     )
                 }
             }
