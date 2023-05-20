@@ -47,13 +47,14 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.spectrum_themoviedb_test.ui.Destinations
 import com.example.spectrum_themoviedb_test.ui.homepage.components.InfiniteListHandler
 import com.example.spectrum_themoviedb_test.ui.homepage.components.MovieCard
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun SearchMovieScreen(navigateBack: () -> Unit, viewModel: SearchViewModel = hiltViewModel()) {
+fun SearchMovieScreen(navigateBack: () -> Unit,
+                      navigateMovieDetail: (Int) -> Unit,
+                      viewModel: SearchViewModel = hiltViewModel()) {
 
     val scrollState = rememberScrollState()
     val searchMovie = remember { mutableStateOf(TextFieldValue("")) }
@@ -96,8 +97,7 @@ fun SearchMovieScreen(navigateBack: () -> Unit, viewModel: SearchViewModel = hil
                     MovieCard(
                         movieItem = movieItem,
                         onClick = {
-                            //navController.navigate(Destinations.MovieDetailScreen.route + "/${movieItem.movieId}")
-                            //navigateMovieDetail(movieItem.movieId)
+                            navigateMovieDetail(movieItem.movieId)
                         })
                 }
 

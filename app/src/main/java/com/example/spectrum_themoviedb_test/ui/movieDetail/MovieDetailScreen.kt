@@ -89,11 +89,9 @@ fun MovieDetailScreen(
             ) {
                 val (backDrop, poster, bookmark, title, tagLine, rating, ratingIcon, genres, overview, status, languages) = createRefs()
 
-                SubcomposeAsyncImage(
+                AsyncImage(
                     model = BASE_IMAGE_PATH + movie.backDropPath,
-                    error = {
-                        painterResource(id = R.drawable.the_movie_db_default_backdrop)
-                    },
+                    error = painterResource(id = R.drawable.the_movie_db_default_backdrop),
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(300.dp)
@@ -102,9 +100,6 @@ fun MovieDetailScreen(
                             start.linkTo(parent.start)
                             end.linkTo(parent.end)
                         },
-                    loading = {
-                        MovieImageCircularProgress()
-                    },
                     alignment = Alignment.Center,
                     contentScale = ContentScale.Crop,
                     contentDescription = "Movie Backdrop"

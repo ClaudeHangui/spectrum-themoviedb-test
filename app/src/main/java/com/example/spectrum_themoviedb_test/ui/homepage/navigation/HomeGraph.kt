@@ -88,9 +88,42 @@ fun HomeGraph(modifier: Modifier, navController: NavHostController) {
 
         detailsNavGraph(navController = navController, navGraphBuilder = this)
 
-        composable(Destinations.SearchScreen.route) {
+        composable(
+            route = Destinations.SearchScreen.route,
+            enterTransition = {
+                when (initialState.destination.route) {
+                    Destinations.MovieDetailScreen.route + "/{movieId}" -> {
+                        enterTransition
+                    }
+                    else -> null
+                }
+            },
+
+            exitTransition = {
+                when (targetState.destination.route) {
+                    Destinations.MovieDetailScreen.route + "/{movieId}" -> {
+                        exitTransition
+                    }
+
+                    else -> null
+                }
+            },
+            popEnterTransition = {
+                when (initialState.destination.route) {
+                    Destinations.MovieDetailScreen.route + "/{movieId}" -> {
+                        popEnterTransition
+                    }
+
+                    else -> null
+                }
+            }
+
+        ) {
             SearchMovieScreen(
-                navigateBack = { navController.popBackStack() }
+                navigateBack = { navController.popBackStack() },
+                navigateMovieDetail = { movieId ->
+                    navController.navigate(Destinations.MovieDetailScreen.route + "/${movieId}")
+                }
             )
         }
     }
@@ -113,6 +146,9 @@ private fun detailsNavGraph(
                 Destinations.NowPlayingScreen.route -> {
                     enterTransition
                 }
+                Destinations.SearchScreen.route -> {
+                    enterTransition
+                }
 
                 else -> null
             }
@@ -122,6 +158,9 @@ private fun detailsNavGraph(
                 Destinations.NowPlayingScreen.route -> {
                     exitTransition
                 }
+                Destinations.SearchScreen.route -> {
+                    exitTransition
+                }
 
                 else -> null
             }
@@ -129,6 +168,9 @@ private fun detailsNavGraph(
         popEnterTransition = {
             when (initialState.destination.route) {
                 Destinations.NowPlayingScreen.route -> {
+                    popEnterTransition
+                }
+                Destinations.SearchScreen.route -> {
                     popEnterTransition
                 }
 
