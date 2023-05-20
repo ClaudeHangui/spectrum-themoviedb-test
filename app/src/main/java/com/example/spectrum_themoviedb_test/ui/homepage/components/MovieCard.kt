@@ -23,6 +23,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -34,6 +36,7 @@ import coil.compose.AsyncImage
 import com.example.spectrum_themoviedb_test.R
 import com.example.spectrum_themoviedb_test.data.model.UiMovieItem
 import com.example.spectrum_themoviedb_test.util.Constants.BASE_IMAGE_PATH
+import java.util.Locale
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -94,18 +97,21 @@ fun MovieCard(
                     style = TextStyle(
                         color = Color.White,
                         fontSize = 10.sp,
-                        fontFamily = MaterialTheme.typography.h6.fontFamily,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = MaterialTheme.typography.h4.fontFamily,
                     ),
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
 
             Text(
-                text = movieItem.voteAverage.toString(),
+                text = if (movieItem.voteAverage <= 0.0) stringResource(id = R.string.not_available) else
+                    "${getValue(movieItem.voteAverage)}/10",
                 style = TextStyle(
                     color = Color.White,
                     fontSize = 10.sp,
-                    fontFamily = MaterialTheme.typography.h6.fontFamily
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = MaterialTheme.typography.h4.fontFamily
                 ),
                 modifier = Modifier
                     .padding(4.dp, 2.dp, 4.dp, 2.dp)
@@ -122,11 +128,12 @@ fun MovieCard(
 
 
             Text(
-                text = movieItem.voteCount.toString(),
+                text = pluralStringResource(id = R.plurals.vote_count, count = movieItem.voteCount, movieItem.voteCount),
                 style = TextStyle(
                     color = Color.White,
                     fontSize = 10.sp,
-                    fontFamily = MaterialTheme.typography.h6.fontFamily
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = MaterialTheme.typography.h4.fontFamily
                 ),
                 modifier = Modifier
                     .padding(4.dp, 2.dp, 4.dp, 2.dp)
@@ -208,4 +215,8 @@ fun MovieCard(
             }
         }
     }
+}
+
+private fun getValue(doubleValue: Double): String {
+    return String.format(Locale.US, "%.1f", doubleValue)
 }

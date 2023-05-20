@@ -6,4 +6,9 @@
     <string name="screen_title_top_rated">Top Rated\n</string>
     <string name="screen_title_upcoming">Upcoming</string>
     <string name="no_rating">No reviews available for this movie</string>
+    <string name="not_available">N/A</string>
+    <plurals name="vote_count">
+        <item quantity="one">%d vote</item>
+        <item quantity="other">%d votes</item>
+    </plurals>
 </resources>
