@@ -12,5 +12,9 @@ data class MoviesState(
 
 data class MovieDetailState(
     val isLoading: Boolean = false,
-    val movieDetail: UiMovieDetail? = null,
-    val throwable: String? = null)
+    val movieDetail: UiMovieDetail,
+    val throwable: String? = null) {
+    companion object {
+        val EMPTY = MovieDetailState(false, UiMovieDetail.EMPTY, null)
+    }
+}

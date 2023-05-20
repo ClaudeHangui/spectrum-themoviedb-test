@@ -24,7 +24,7 @@ class MovieDetailVM @Inject constructor( private val moviesRepository: MoviesRep
 ) : ViewModel() {
 
 
-    val _movieDetailState = MutableStateFlow(MovieDetailState())
+    val _movieDetailState = MutableStateFlow(MovieDetailState.EMPTY)
     val movieDetailState = _movieDetailState.asStateFlow()
 
     val _bookmarkState = MutableStateFlow(BookmarkMovieState())
@@ -39,7 +39,6 @@ class MovieDetailVM @Inject constructor( private val moviesRepository: MoviesRep
                 it.copy(throwable = error.message ?: "Something went wrong", isLoading = false)
             }
         }.collect { response ->
-            Log.e("MovieDetailVM", "updating the local mutable flow")
             _movieDetailState.update { oldData ->
                 oldData.copy(
                 movieDetail = response,
@@ -49,7 +48,6 @@ class MovieDetailVM @Inject constructor( private val moviesRepository: MoviesRep
     }
 
     fun setBookmarkState(movieId: UiMovieDetail, bookmarkButtonState: Boolean) = viewModelScope.launch(Dispatchers.Main){
-        _bookmarkState.update { it.copy(isLoading = true) }
         val rowId = withContext(Dispatchers.IO){
             if(bookmarkButtonState){
                 moviesRepository.addMovieToBookmarks(movieId)
@@ -58,12 +56,11 @@ class MovieDetailVM @Inject constructor( private val moviesRepository: MoviesRep
             }
         }
         if (rowId > 0) {
-            _bookmarkState.update { it.copy(isLoading = false, isBookmarked = rowId > 1) }
+           _movieDetailState.update { it.copy(movieDetail = movieId.copy(bookmarked = rowId > 1)) }
         }
     }
 }
 
 data class BookmarkMovieState(
-    val isLoading: Boolean = false,
     val isBookmarked: Boolean = false
 )

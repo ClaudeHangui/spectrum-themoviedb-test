@@ -32,4 +32,9 @@ data class UiMovieDetail(
     var spokenLanguages: List<String> = emptyList(),
     @Ignore
     var bookmarked: Boolean = false
-)
+){
+    companion object {
+        val EMPTY = UiMovieDetail()
+    }
+    constructor(): this(-1, "", "", "", 0.0, 0, "", emptyList(), "", "", "", emptyList(), false)
+}

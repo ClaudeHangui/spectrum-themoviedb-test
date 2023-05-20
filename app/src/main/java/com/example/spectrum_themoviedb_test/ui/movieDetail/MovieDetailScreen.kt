@@ -31,9 +31,6 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -73,7 +70,8 @@ fun MovieDetailScreen(
     val state by movieDetailVM.movieDetailState.collectAsStateWithLifecycle()
 
     val bookmarkState by movieDetailVM.bookmarkState.collectAsStateWithLifecycle()
-    var bookmarkButtonState by remember { mutableStateOf(bookmarkState.isBookmarked) }
+    //var bookmarkButtonState by remember { mutableStateOf(state.movieDetail.bookmarked) }
+    var bookmarkButtonState = state.movieDetail.bookmarked
 
     LaunchedEffect(true) {
         movieDetailVM.getMovie(movieId)
@@ -84,12 +82,7 @@ fun MovieDetailScreen(
             .fillMaxWidth()
             .background(Color(0xFF161520))
     ) {
-        state.movieDetail?.let { movie ->
-            Log.e(
-                "MovieDetailScreen",
-                "MovieDetailScreen: movieDetail: ${movie}"
-            )
-
+        state.movieDetail.let { movie ->
             ConstraintLayout(
                 modifier = Modifier
                     .fillMaxSize()
@@ -141,12 +134,12 @@ fun MovieDetailScreen(
                         },
                 ) {
                     Icon(
-                        imageVector = if (bookmarkState.isBookmarked) {
+                        imageVector = if (movie.bookmarked) {
                             Icons.Filled.ThumbUp
                         } else {
                             Icons.Outlined.ThumbUp
                         },
-                        tint = if (bookmarkState.isBookmarked) Color.Red else Color.White,
+                        tint = if (movie.bookmarked) Color.Red else Color.White,
                         modifier = Modifier.size(32.dp),
                         contentDescription = null)
                 }
