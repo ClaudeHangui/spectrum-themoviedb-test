@@ -22,13 +22,6 @@ import com.example.spectrum_themoviedb_test.ui.Destinations
 fun BottomBarNav(navController: NavHostController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-    val screens = listOf(
-        Destinations.NowPlayingScreen,
-        Destinations.PopularScreen,
-        Destinations.TopRatedScreen,
-        Destinations.UpcomingScreen
-    )
-
     val currentDestination = navBackStackEntry?.destination
     val bottomBarDestination = screens.any { it.route == currentDestination?.route }
     if (bottomBarDestination) {
@@ -44,6 +37,13 @@ fun BottomBarNav(navController: NavHostController) {
         }
     }
 }
+
+val screens = listOf(
+    Destinations.NowPlayingScreen,
+    Destinations.PopularScreen,
+    Destinations.TopRatedScreen,
+    Destinations.UpcomingScreen
+)
 
 @Composable
 fun RowScope.AddItem(

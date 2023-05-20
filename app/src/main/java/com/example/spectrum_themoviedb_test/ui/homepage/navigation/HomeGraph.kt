@@ -101,7 +101,6 @@ private fun detailsNavGraph(
             }
         ),
 
-
         enterTransition = {
             when (initialState.destination.route) {
                 Destinations.NowPlayingScreen.route -> {
