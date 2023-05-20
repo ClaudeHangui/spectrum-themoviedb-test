@@ -3,7 +3,7 @@ package com.example.spectrum_themoviedb_test
 
 import com.example.spectrum_themoviedb_test.data.model.Dates
 import com.example.spectrum_themoviedb_test.data.MovieDetailApiResponse
-import com.example.spectrum_themoviedb_test.data.model.MovieItem
+import com.example.spectrum_themoviedb_test.data.model.MovieListItem
 import com.example.spectrum_themoviedb_test.data.model.MoviesApiResponse
 import com.example.spectrum_themoviedb_test.data.MoviesRepository
 import com.example.spectrum_themoviedb_test.data.model.UiMovieDetail
@@ -36,7 +36,7 @@ internal class MoviesRepositoryTest {
         dates = Dates("2020-01-01", "2020-01-02"),
         page = 1,
         results = listOf(
-            MovieItem(
+            MovieListItem(
                 adult = false,
                 backdrop_path = "Backdrop Path 1",
                 genre_ids = listOf(1, 2),
@@ -52,7 +52,7 @@ internal class MoviesRepositoryTest {
                 vote_average = 1.0,
                 vote_count = 1
             ),
-            MovieItem(
+            MovieListItem(
                 adult = false,
                 backdrop_path = "Backdrop Path 2",
                 genre_ids = listOf(3, 4),

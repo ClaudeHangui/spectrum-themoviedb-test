@@ -5,7 +5,6 @@ import com.example.spectrum_themoviedb_test.data.mapper.MovieDetailMapper
 import com.example.spectrum_themoviedb_test.data.mapper.MovieListMapper
 import com.example.spectrum_themoviedb_test.data.mapper.MoviesModel
 import com.example.spectrum_themoviedb_test.data.model.UiMovieDetail
-import com.example.spectrum_themoviedb_test.data.model.UiMovieItem
 import com.example.spectrum_themoviedb_test.data.remote.MovieDbApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -42,6 +41,10 @@ class MoviesRepository @Inject constructor(
 
     */
 
+    fun addMovieToBookmarks(movie: UiMovieDetail) = dao.bookmarkMovie(movie).toInt()
+
+    fun removeMovieFromBookmarks(movie: UiMovieDetail) = dao.unBookmarkMovie(movie)
+
     fun searchMovie(query: String, page: Int) = flow {
         val apiResponse = api.getSearchedMovies(query, page)
         val mapResult = movieListMapper.mapToUIModel(apiResponse)
@@ -50,7 +53,8 @@ class MoviesRepository @Inject constructor(
 
     fun fetchMovieDetail(movieId: Int): Flow<UiMovieDetail> = flow {
         val apiResponse = api.getMovieDetail(movieId)
-        val mapResult = movieDetailMapper.mapToUIModel(apiResponse)
+        val isMovieAlreadyBookmarked = dao.getMovie(movieId) != null
+        val mapResult = movieDetailMapper.mapToUIModel(apiResponse, isMovieAlreadyBookmarked)
         emit(mapResult)
     }.flowOn(Dispatchers.IO)
 

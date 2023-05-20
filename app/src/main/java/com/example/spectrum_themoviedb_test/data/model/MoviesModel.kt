@@ -1,14 +1,12 @@
 package com.example.spectrum_themoviedb_test.data.model
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class MoviesApiResponse(
     val dates: Dates,
     override val page: Int,
-    override val results: List<MovieItem>,
+    override val results: List<MovieListItem>,
     override val total_results: Int,
     override val total_pages: Int,
     ): BaseApiResponse
@@ -21,25 +19,23 @@ data class Dates(
 @Serializable
 data class PopularMoviesApiResponse(
     override val page: Int,
-    override val results: List<MovieItem>,
+    override val results: List<MovieListItem>,
     override val total_results: Int,
     override val total_pages: Int,
     ): BaseApiResponse
 
 interface BaseApiResponse {
     val page: Int
-    val results: List<MovieItem>
+    val results: List<MovieListItem>
     val total_results: Int
     val total_pages: Int
 }
 
-@Entity(tableName = "Movie")
 @Serializable
-data class MovieItem(
-    val adult: Boolean,
+data class MovieListItem(
     val backdrop_path: String,
     val genre_ids: List<Int>,
-    @PrimaryKey val id: Int,
+    val id: Int,
     val original_language: String,
     val original_title: String,
     val overview: String,

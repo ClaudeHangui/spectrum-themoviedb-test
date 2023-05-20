@@ -20,14 +20,20 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.ThumbUp
+import androidx.compose.material.icons.outlined.ThumbUp
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -49,7 +55,6 @@ import androidx.constraintlayout.compose.Visibility
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
-import coil.compose.SubcomposeAsyncImage
 import com.example.spectrum_themoviedb_test.R
 import com.example.spectrum_themoviedb_test.util.Constants.BASE_IMAGE_PATH
 import java.util.Locale
@@ -66,6 +71,9 @@ fun MovieDetailScreen(
     val scrollState = rememberScrollState()
 
     val state by movieDetailVM.movieDetailState.collectAsStateWithLifecycle()
+
+    val bookmarkState by movieDetailVM.bookmarkState.collectAsStateWithLifecycle()
+    var bookmarkButtonState by remember { mutableStateOf(bookmarkState.isBookmarked) }
 
     LaunchedEffect(true) {
         movieDetailVM.getMovie(movieId)
@@ -120,6 +128,28 @@ fun MovieDetailScreen(
                         },
                     contentScale = ContentScale.Crop
                 )
+
+                IconButton(
+                    onClick = {
+                        bookmarkButtonState = !bookmarkButtonState
+                        movieDetailVM.setBookmarkState(movie, bookmarkButtonState)
+                    },
+                    modifier = Modifier
+                        .constrainAs(bookmark) {
+                            top.linkTo(backDrop.top, margin = 16.dp)
+                            end.linkTo(backDrop.end, margin = 16.dp)
+                        },
+                ) {
+                    Icon(
+                        imageVector = if (bookmarkState.isBookmarked) {
+                            Icons.Filled.ThumbUp
+                        } else {
+                            Icons.Outlined.ThumbUp
+                        },
+                        tint = if (bookmarkState.isBookmarked) Color.Red else Color.White,
+                        modifier = Modifier.size(32.dp),
+                        contentDescription = null)
+                }
 
 
                 Text(

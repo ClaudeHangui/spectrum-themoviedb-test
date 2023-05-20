@@ -6,7 +6,7 @@ import com.example.spectrum_themoviedb_test.util.DateFormatterHelper
 import javax.inject.Inject
 
 class MovieDetailMapper @Inject constructor(private val dateFormatterHelper: DateFormatterHelper) {
-    fun mapToUIModel(movieDetail: MovieDetailApiResponse): UiMovieDetail {
+    fun mapToUIModel(movieDetail: MovieDetailApiResponse, isMovieAlreadyBookmarked: Boolean): UiMovieDetail {
         val movieGenres = if (movieDetail.genres.isEmpty()) {
             emptyList()
         } else {
@@ -32,7 +32,8 @@ class MovieDetailMapper @Inject constructor(private val dateFormatterHelper: Dat
             overview = movieDetail.overview,
             status = movieDetail.status,
             tagLine = movieDetail.tagline,
-            spokenLanguages = languagesAvailable
+            spokenLanguages = languagesAvailable,
+            bookmarked = isMovieAlreadyBookmarked
         )
     }
 
