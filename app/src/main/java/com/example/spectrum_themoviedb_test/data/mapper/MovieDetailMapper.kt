@@ -7,6 +7,18 @@ import javax.inject.Inject
 
 class MovieDetailMapper @Inject constructor(private val dateFormatterHelper: DateFormatterHelper) {
     fun mapToUIModel(movieDetail: MovieDetailApiResponse): UiMovieDetail {
+        val movieGenres = if (movieDetail.genres.isEmpty()) {
+            emptyList()
+        } else {
+            movieDetail.genres.map { it.name }
+        }
+
+        val languagesAvailable = if (movieDetail.spoken_languages.isEmpty()) {
+            emptyList()
+        } else {
+            movieDetail.spoken_languages.map { it.english_name }
+        }
+
         return UiMovieDetail(
             movieId = movieDetail.id,
             title = movieDetail.title,
@@ -14,12 +26,13 @@ class MovieDetailMapper @Inject constructor(private val dateFormatterHelper: Dat
             posterPath = movieDetail.poster_path,
             voteAverage = movieDetail.vote_average,
             voteCount = movieDetail.vote_count,
-            releaseDate = dateFormatterHelper.formatDate(movieDetail.release_date, DATE_PATTERN),
-            genre = movieDetail.genres.map { it.name },
+            releaseDate =
+            dateFormatterHelper.formatDate(movieDetail.release_date, DATE_PATTERN),
+            genre = movieGenres,
             overview = movieDetail.overview,
             status = movieDetail.status,
             tagLine = movieDetail.tagline,
-            spokenLanguages = movieDetail.spoken_languages.map { it.english_name }
+            spokenLanguages = languagesAvailable
         )
     }
 

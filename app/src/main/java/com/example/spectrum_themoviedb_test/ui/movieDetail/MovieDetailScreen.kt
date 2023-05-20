@@ -33,6 +33,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -48,6 +50,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.compose.SubcomposeAsyncImage
+import com.example.spectrum_themoviedb_test.R
 import com.example.spectrum_themoviedb_test.util.Constants.BASE_IMAGE_PATH
 import java.util.Locale
 
@@ -88,6 +91,9 @@ fun MovieDetailScreen(
 
                 SubcomposeAsyncImage(
                     model = BASE_IMAGE_PATH + movie.backDropPath,
+                    error = {
+                        painterResource(id = R.drawable.the_movie_db_default_backdrop)
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(300.dp)
@@ -106,6 +112,8 @@ fun MovieDetailScreen(
                 AsyncImage(
                     model = BASE_IMAGE_PATH + movie.posterPath,
                     contentDescription = "Movie Poster",
+                    placeholder = painterResource(id = R.drawable.the_movie_db_default_poster),
+                    error = painterResource(id = R.drawable.the_movie_db_default_poster),
                     modifier = Modifier
                         .size(96.dp)
                         .clip(CircleShape)
@@ -178,57 +186,73 @@ fun MovieDetailScreen(
                 )
 
                 Text(
-                    text = buildAnnotatedString {
-                        withStyle(
-                            style = SpanStyle(
-                                color = Color.White,
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Bold,
-                                fontFamily = MaterialTheme.typography.h6.fontFamily
-                            )
-                        ) {
-                            append(getValue(movie.voteAverage))
+                    text = if (movie.voteCount <= 0) {
+                        buildAnnotatedString {
+                            withStyle(
+                                style = SpanStyle(
+                                    color = Color.White,
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight.Medium,
+                                    fontFamily = MaterialTheme.typography.h6.fontFamily
+                                )
+                            ) {
+                                append(stringResource(id = R.string.no_rating))
+                            }
                         }
-                        withStyle(
-                            style = SpanStyle(
-                                color = Color.White,
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Medium,
-                                fontFamily = MaterialTheme.typography.h6.fontFamily
-                            )
-                        ) {
-                            append("/10")
-                        }
-                        withStyle(
-                            style = SpanStyle(
-                                color = Color.White,
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Medium,
-                                fontFamily = MaterialTheme.typography.h6.fontFamily
-                            )
-                        ) {
-                            append(" from ")
-                        }
+                    } else {
+                        buildAnnotatedString {
+                            withStyle(
+                                style = SpanStyle(
+                                    color = Color.White,
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    fontFamily = MaterialTheme.typography.h6.fontFamily
+                                )
+                            ) {
+                                append(getValue(movie.voteAverage))
+                            }
+                            withStyle(
+                                style = SpanStyle(
+                                    color = Color.White,
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight.Medium,
+                                    fontFamily = MaterialTheme.typography.h6.fontFamily
+                                )
+                            ) {
+                                append("/10")
+                            }
 
-                        withStyle(
-                            style = SpanStyle(
-                                color = Color.White,
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Bold,
-                                fontFamily = MaterialTheme.typography.h6.fontFamily
-                            )
-                        ) {
-                            append(movie.voteCount.toString())
-                        }
-                        withStyle(
-                            style = SpanStyle(
-                                color = Color.White,
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Medium,
-                                fontFamily = MaterialTheme.typography.h6.fontFamily
-                            )
-                        ) {
-                            append(" users")
+                            withStyle(
+                                style = SpanStyle(
+                                    color = Color.White,
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight.Medium,
+                                    fontFamily = MaterialTheme.typography.h6.fontFamily
+                                )
+                            ) {
+                                append(" from ")
+                            }
+
+                            withStyle(
+                                style = SpanStyle(
+                                    color = Color.White,
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    fontFamily = MaterialTheme.typography.h6.fontFamily
+                                )
+                            ) {
+                                append(movie.voteCount.toString())
+                            }
+                            withStyle(
+                                style = SpanStyle(
+                                    color = Color.White,
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight.Medium,
+                                    fontFamily = MaterialTheme.typography.h6.fontFamily
+                                )
+                            ) {
+                                append(" users")
+                            }
                         }
                     },
                     modifier = Modifier
@@ -252,6 +276,11 @@ fun MovieDetailScreen(
                         .constrainAs(genres) {
                             top.linkTo(ratingIcon.bottom, margin = 8.dp)
                             start.linkTo(ratingIcon.start, margin = 8.dp)
+                            visibility = if (movie.genre.isEmpty()) {
+                                Visibility.Gone
+                            } else {
+                                Visibility.Visible
+                            }
                         }
                 ) {
                     repeat(movie.genre.size) {
@@ -302,6 +331,11 @@ fun MovieDetailScreen(
                         .constrainAs(overview) {
                             top.linkTo(genres.bottom, margin = 8.dp)
                             start.linkTo(backDrop.start, margin = 2.dp)
+                            visibility = if (movie.overview.isEmpty()) {
+                                Visibility.Gone
+                            } else {
+                                Visibility.Visible
+                            }
                         }
                 )
 
@@ -327,7 +361,11 @@ fun MovieDetailScreen(
                                 fontFamily = MaterialTheme.typography.h6.fontFamily
                             )
                         ) {
-                            append(movie.releaseDate)
+                            append(
+                                movie.releaseDate.ifEmpty {
+                                    "N/A"
+                                }
+                            )
                         }
                     },
                     modifier = Modifier
@@ -343,7 +381,10 @@ fun MovieDetailScreen(
                 )
 
                 val separator = ", "
-                val movieLanguages = movie.spokenLanguages.joinToString(separator = separator)
+                val movieLanguages =
+                    if (movie.spokenLanguages.isEmpty()) "N/A" else movie.spokenLanguages.joinToString(
+                        separator = separator
+                    )
                 Text(
                     text = "Languages: $movieLanguages",
                     style = TextStyle(

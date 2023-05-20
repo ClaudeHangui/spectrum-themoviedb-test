@@ -15,6 +15,7 @@ import com.example.spectrum_themoviedb_test.ui.homepage.screens.PopularScreen
 import com.example.spectrum_themoviedb_test.ui.homepage.screens.TopRatedScreen
 import com.example.spectrum_themoviedb_test.ui.homepage.screens.UpcomingScreen
 import com.example.spectrum_themoviedb_test.ui.movieDetail.MovieDetailScreen
+import com.example.spectrum_themoviedb_test.ui.searchMovie.SearchMovieScreen
 import com.example.spectrum_themoviedb_test.ui.utils.enterTransition
 import com.example.spectrum_themoviedb_test.ui.utils.exitTransition
 import com.example.spectrum_themoviedb_test.ui.utils.popEnterTransition
@@ -86,6 +87,12 @@ fun HomeGraph(modifier: Modifier, navController: NavHostController) {
         }
 
         detailsNavGraph(navController = navController, navGraphBuilder = this)
+
+        composable(Destinations.SearchScreen.route) {
+            SearchMovieScreen(
+                navigateBack = { navController.popBackStack() }
+            )
+        }
     }
 }
 

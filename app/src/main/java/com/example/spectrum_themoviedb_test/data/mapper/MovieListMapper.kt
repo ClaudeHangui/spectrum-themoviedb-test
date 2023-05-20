@@ -10,15 +10,20 @@ class MovieListMapper @Inject constructor(
     private val dao: MoviesDao,
     private val dateFormatter: DateFormatterHelper
 ) {
-    fun mapToUIModel(response: BaseApiResponse?) : MoviesModel {
+    fun mapToUIModel(response: BaseApiResponse?): MoviesModel {
         val data = response?.let {
             if (it.results.isEmpty()) {
                 emptyList()
             } else {
                 it.results.map { movie ->
-                    val movieGenres = movie.genre_ids.map { genreId ->
-                        dao.getGenre(genreId)
+                    val movieGenres = if (movie.genre_ids.isEmpty()) {
+                        emptyList()
+                    } else {
+                        movie.genre_ids.map { genreId ->
+                            dao.getGenre(genreId)
+                        }
                     }
+
                     val formattedDate = dateFormatter.formatDate(movie.release_date, DATE_PATTERN)
 
                     UiMovieItem(

@@ -39,11 +39,14 @@ class MoviesRepository @Inject constructor(
         return movieListMapper.mapToUIModel(apiResponse)
     }
 
-    suspend fun fetchSearchMovies(query: String, page: Int): List<UiMovieItem> {
-        val apiResponse = api.getSearchedMovies(query, page)
-        return movieListMapper.mapToUIModel(apiResponse)
-    }
+
     */
+
+    fun searchMovie(query: String, page: Int) = flow {
+        val apiResponse = api.getSearchedMovies(query, page)
+        val mapResult = movieListMapper.mapToUIModel(apiResponse)
+        emit(mapResult)
+    }.flowOn(Dispatchers.IO)
 
     fun fetchMovieDetail(movieId: Int): Flow<UiMovieDetail> = flow {
         val apiResponse = api.getMovieDetail(movieId)

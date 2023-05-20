@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -27,7 +28,7 @@ class MoviesVM @Inject constructor(
     private val _paginationState = MutableStateFlow(PaginationState())
     val paginationState = _paginationState.asStateFlow()
 
-    val _nowPlayingState = MutableStateFlow(MoviesState())
+    private val _nowPlayingState = MutableStateFlow(MoviesState())
     val nowPlayingState = _nowPlayingState.asStateFlow()
 
     init {
@@ -39,38 +40,40 @@ class MoviesVM @Inject constructor(
 
 
     private fun getNowPlayingVideos(pageNumber: Int) = viewModelScope.launch {
-        moviesRepository.fetchNowPlayingMovies(pageNumber).onStart {
-            if (_nowPlayingState.value.movies.isEmpty()) {
-                _nowPlayingState.update { it.copy(isLoading = true) }
-            }
+        moviesRepository.fetchNowPlayingMovies(pageNumber)
+            .distinctUntilChanged()
+            .onStart {
+                if (_nowPlayingState.value.movies.isEmpty()) {
+                    _nowPlayingState.update { it.copy(isLoading = true) }
+                }
 
-            if (_nowPlayingState.value.movies.isNotEmpty()) {
-                _paginationState.update { it.copy(isLoading = true) }
-            }
+                if (_nowPlayingState.value.movies.isNotEmpty()) {
+                    _paginationState.update { it.copy(isLoading = true) }
+                }
 
-        }.catch { error ->
-            error.printStackTrace()
-            _nowPlayingState.update {
-                it.copy(throwable = error.message ?: "Something went wrong", isLoading = false)
+            }.catch { error ->
+                error.printStackTrace()
+                _nowPlayingState.update {
+                    it.copy(throwable = error.message ?: "Something went wrong", isLoading = false)
+                }
+            }.collect { response ->
+                Log.e("MoviesVM", "updating the local mutable flow")
+                _nowPlayingState.update { movieState ->
+                    movieState.copy(
+                        movies = movieState.movies + response.data,
+                        isLoading = false,
+                        nextPageToView = movieState.nextPageToView + 1,
+                        throwable = null
+                    )
+                }
+                _paginationState.update { paginationState ->
+                    paginationState.copy(
+                        isLoading = false,
+                        totalPages = if (_paginationState.value.totalPages <= response.totalPages) response.totalPages else _paginationState.value.totalPages,
+                        endReached = response.data.isEmpty() || _nowPlayingState.value.nextPageToView >= response.totalPages
+                    )
+                }
             }
-        }.collect { response ->
-            Log.e("MoviesVM", "updating the local mutable flow")
-            _nowPlayingState.update { movieState ->
-                movieState.copy(
-                    movies = movieState.movies + response.data,
-                    isLoading = false,
-                    nextPageToView = movieState.nextPageToView + 1,
-                    throwable = null
-                )
-            }
-            _paginationState.update { paginationState ->
-                paginationState.copy(
-                    isLoading = false,
-                    totalPages = if (_paginationState.value.totalPages <= response.totalPages) response.totalPages else _paginationState.value.totalPages,
-                    endReached = response.data.isEmpty() || _nowPlayingState.value.nextPageToView >= response.totalPages
-                )
-            }
-        }
     }
 
     fun refreshMovieList() {

@@ -38,6 +38,8 @@ sealed class Destinations(
     }
     object BookmarksScreen : Destinations("bookmarks_screen")
 
+    object SearchScreen : Destinations("search_screen")
+
     fun withArgsFormat(vararg args: String) : String {
         return buildString {
             append(route)

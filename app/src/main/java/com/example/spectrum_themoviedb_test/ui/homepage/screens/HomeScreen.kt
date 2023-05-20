@@ -1,16 +1,26 @@
 package com.example.spectrum_themoviedb_test.ui.homepage.screens
 
+import android.widget.Toast
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.spectrum_themoviedb_test.ui.Destinations
 import com.example.spectrum_themoviedb_test.ui.homepage.navigation.BottomBarNav
 import com.example.spectrum_themoviedb_test.ui.homepage.navigation.HomeGraph
 import com.example.spectrum_themoviedb_test.ui.homepage.navigation.screens
@@ -28,7 +38,7 @@ fun HomeScreen(navController: NavHostController = rememberAnimatedNavController(
         scaffoldState = scaffoldState,
         topBar = {
             if (bottomBarDestination) {
-                MyUI()
+                MyUI(navController)
             }
         }
     ) { paddingValues ->
@@ -40,10 +50,30 @@ fun HomeScreen(navController: NavHostController = rememberAnimatedNavController(
 }
 
 @Composable
-fun MyUI() {
+fun MyUI(navController: NavHostController) {
+    val contextForToast = LocalContext.current.applicationContext
+
     TopAppBar(
         title = {
-            Text(text = "SemicolonSpace")
+            Text(text = "The Movie DB")
+        },
+        //backgroundColor = Color.Transparent,
+        elevation = 0.dp,
+        actions = {
+            TopAppBarActionButton(
+                imageVector = Icons.Outlined.Search,
+                description = "Search",
+                onClick = {
+                    navController.navigate(Destinations.SearchScreen.route)
+                }
+            )
+            TopAppBarActionButton(
+                imageVector = Icons.Outlined.Favorite,
+                description = "Login",
+                onClick = {
+                    Toast.makeText(contextForToast, "Login", Toast.LENGTH_SHORT).show()
+                }
+            )
         }
     )
 }
@@ -53,4 +83,18 @@ fun currentRoute(navController: NavHostController): String? {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     return navBackStackEntry?.destination?.route
 }
+
+@Composable
+fun TopAppBarActionButton(
+    imageVector: ImageVector,
+    description: String,
+    onClick: () -> Unit
+) {
+    IconButton(onClick = {
+        onClick()
+    }) {
+        Icon(imageVector = imageVector, contentDescription = description)
+    }
+}
+
 

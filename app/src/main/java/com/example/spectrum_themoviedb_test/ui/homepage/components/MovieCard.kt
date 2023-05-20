@@ -6,20 +6,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -27,21 +20,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.CornerRadius
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.geometry.RoundRect
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Visibility
 import coil.compose.AsyncImage
 import com.example.spectrum_themoviedb_test.R
 import com.example.spectrum_themoviedb_test.data.model.UiMovieItem
@@ -65,23 +53,24 @@ fun MovieCard(
 
             val (poster, averageCount, averageViews, releasedDateText, movieGenres, movieTitle) = createRefs()
 
-            movieItem.posterPath?.let { path ->
-                AsyncImage(
-                    model = BASE_IMAGE_PATH + path,
-                    modifier = Modifier
-                        .padding(0.5.dp)
-                        .fillMaxWidth()
-                        .constrainAs(poster) {
-                            top.linkTo(parent.top)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                        }
-                        .height(150.dp),
-                    contentScale = ContentScale.Crop,
-                    contentDescription = "film poster")
-            }
+            AsyncImage(
+                model = BASE_IMAGE_PATH + movieItem.posterPath,
+                modifier = Modifier
+                    .padding(0.5.dp)
+                    .fillMaxWidth()
+                    .constrainAs(poster) {
+                        top.linkTo(parent.top)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    }
+                    .height(150.dp),
+                placeholder = painterResource(id = R.drawable.the_movie_db_default_poster),
+                error = painterResource(id = R.drawable.the_movie_db_default_poster),
+                contentScale = ContentScale.Crop,
+                contentDescription = "film poster"
+            )
 
-            Box (
+            Box(
                 modifier = Modifier
                     .wrapContentWidth()
                     .wrapContentHeight()
@@ -93,6 +82,11 @@ fun MovieCard(
                     .constrainAs(releasedDateText) {
                         top.linkTo(poster.top)
                         end.linkTo(poster.end)
+                        visibility = if (movieItem.releaseDate.isEmpty()) {
+                            Visibility.Gone
+                        } else {
+                            Visibility.Visible
+                        }
                     }
             ) {
                 Text(
@@ -157,6 +151,11 @@ fun MovieCard(
                         top.linkTo(poster.bottom)
                         start.linkTo(poster.start)
                         end.linkTo(poster.end)
+                        visibility = if (movieItem.genre.isEmpty()) {
+                            Visibility.Gone
+                        } else {
+                            Visibility.Visible
+                        }
                     }
 
             ) {

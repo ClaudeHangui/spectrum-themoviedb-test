@@ -5,4 +5,5 @@
     <string name="screen_title_popular">Popular\n</string>
     <string name="screen_title_top_rated">Top Rated\n</string>
     <string name="screen_title_upcoming">Upcoming</string>
+    <string name="no_rating">No reviews available for this movie</string>
 </resources>
