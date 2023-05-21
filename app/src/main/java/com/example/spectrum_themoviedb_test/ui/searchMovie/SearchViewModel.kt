@@ -40,9 +40,9 @@ class SearchViewModel @Inject constructor(
         moviesRepository.searchMovie(query, pageNumber)
             .distinctUntilChanged()
             .onStart {
+                _searchedMoviesState.update { it.copy(isScreenInit = false) }
                 if (_searchedMoviesState.value.movies.isEmpty()) {
-                    _searchedMoviesState.value =
-                        _searchedMoviesState.value.copy(isLoading = true)
+                    _searchedMoviesState.update { it.copy(isLoading = true) }
                 }
 
                 if (_searchedMoviesState.value.movies.isNotEmpty()) {
