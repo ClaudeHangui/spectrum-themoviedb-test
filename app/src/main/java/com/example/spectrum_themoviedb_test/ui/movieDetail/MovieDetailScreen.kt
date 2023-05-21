@@ -1,6 +1,5 @@
 package com.example.spectrum_themoviedb_test.ui.movieDetail
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -26,9 +25,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material.icons.outlined.Favorite
-import androidx.compose.material.icons.outlined.ThumbUp
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -430,7 +427,7 @@ fun MovieDetailScreen(
 
         }
 
-        MovieDetailScreen()
+        MovieDetailScreenState()
     }
 }
 

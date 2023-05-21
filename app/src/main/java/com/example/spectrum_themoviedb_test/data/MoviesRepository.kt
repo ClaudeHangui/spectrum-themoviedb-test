@@ -27,19 +27,24 @@ class MoviesRepository @Inject constructor(
         emit(mapResult)
     }.flowOn(Dispatchers.IO)
 
-    /*
-    suspend fun fetchTopRatedMovies(page: Int): List<UiMovieItem> {
+
+    fun fetchTopRatedMovies(page: Int) = flow {
         val apiResponse = api.getTopRatedMovies(page)
-        return movieListMapper.mapToUIModel(apiResponse)
-    }
+        val mapResult = movieListMapper.mapToUIModel(apiResponse)
+        emit(mapResult)
+    }.flowOn(Dispatchers.IO)
 
-    suspend fun fetchUpcomingVideos(page: Int): List<UiMovieItem> {
+    fun fetchUpcomingVideos(page: Int) = flow {
         val apiResponse = api.getUpComing(page)
-        return movieListMapper.mapToUIModel(apiResponse)
+        val mapResult = movieListMapper.mapToUIModel(apiResponse)
+        emit(mapResult)
+    }.flowOn(Dispatchers.IO)
+
+    fun fetchPopularMovies(movieId: Int) = flow {
+        val apiResponse = api.getPopularMovies(movieId)
+        val mapResult = movieListMapper.mapToUIModel(apiResponse)
+        emit(mapResult)
     }
-
-
-    */
 
     fun addMovieToBookmarks(movie: UiMovieDetail) = dao.bookmarkMovie(movie).toInt()
 
@@ -65,10 +70,4 @@ class MoviesRepository @Inject constructor(
         dao.insertAllGenres(apiResponse.genres)
     }
 
-    /*
-    suspend fun getPopularMovies(movieId: Int): List<UiMovieItem> {
-        val apiResponse = api.getPopularMovies(movieId)
-        return movieListMapper.mapToUIModel(apiResponse)
-    }
-    */
 }

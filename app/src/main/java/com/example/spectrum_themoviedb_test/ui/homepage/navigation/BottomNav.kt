@@ -14,7 +14,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.spectrum_themoviedb_test.ui.Destinations
+import com.example.spectrum_themoviedb_test.ui.coreNavigationGraph.Destinations
 
 @Composable
 fun BottomBarNav(navController: NavHostController) {

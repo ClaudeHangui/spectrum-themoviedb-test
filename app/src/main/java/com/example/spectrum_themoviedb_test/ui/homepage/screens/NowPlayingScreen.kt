@@ -5,6 +5,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,26 +18,30 @@ import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridS
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.example.spectrum_themoviedb_test.ui.Destinations
-import com.example.spectrum_themoviedb_test.ui.MoviesVM
-import com.example.spectrum_themoviedb_test.ui.homepage.components.HomeScreenState
+import com.example.spectrum_themoviedb_test.ui.coreNavigationGraph.Destinations
+import com.example.spectrum_themoviedb_test.ui.homepage.viewwmodels.MoviesNowPlayingVM
 import com.example.spectrum_themoviedb_test.ui.homepage.components.InfiniteListHandler
 import com.example.spectrum_themoviedb_test.ui.homepage.components.MovieCard
+import com.example.spectrum_themoviedb_test.ui.homepage.components.ShowLoader
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NowPlayingScreen(navController: NavController,
-                     viewModel: MoviesVM = hiltViewModel()) {
+                     viewModel: MoviesNowPlayingVM = hiltViewModel()) {
     val myScaffoldState = rememberScaffoldState()
     val state by viewModel.nowPlayingState.collectAsStateWithLifecycle()
     val paginationState by viewModel.paginationState.collectAsStateWithLifecycle()
@@ -53,6 +58,7 @@ fun NowPlayingScreen(navController: NavController,
             SwipeRefresh(
                 state = rememberSwipeRefreshState(isRefreshing = refreshState),
                 onRefresh = { viewModel.refreshMovieList() }) {
+                // start
                 LazyVerticalStaggeredGrid(
                     columns = StaggeredGridCells.Fixed(2),
                     modifier = Modifier
@@ -87,6 +93,7 @@ fun NowPlayingScreen(navController: NavController,
                         }
                     }
                 }
+                // end
 
                 InfiniteListHandler(lazyListState = lazyListState) {
                     viewModel.loadMoreMovies()
@@ -94,8 +101,32 @@ fun NowPlayingScreen(navController: NavController,
 
             }
 
-            HomeScreenState()
+            NowPlayingScreenState()
         }
 
+    }
+}
+
+@Composable
+fun BoxScope.NowPlayingScreenState(viewModel: MoviesNowPlayingVM = hiltViewModel()) {
+    val state by viewModel.nowPlayingState.collectAsStateWithLifecycle()
+    state.let {
+        if(it.isLoading){
+            ShowLoader()
+        }
+        it.throwable?.let { error ->
+            if (error.isNotEmpty()){
+                Text(
+                    text = error,
+                    color = MaterialTheme.colorScheme.error,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp)
+                        .align(Alignment.Center)
+                )
+
+            }
+        }
     }
 }

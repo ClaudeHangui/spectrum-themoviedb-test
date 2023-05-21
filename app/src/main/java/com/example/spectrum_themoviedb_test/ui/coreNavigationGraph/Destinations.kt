@@ -1,4 +1,4 @@
-package com.example.spectrum_themoviedb_test.ui
+package com.example.spectrum_themoviedb_test.ui.coreNavigationGraph
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home

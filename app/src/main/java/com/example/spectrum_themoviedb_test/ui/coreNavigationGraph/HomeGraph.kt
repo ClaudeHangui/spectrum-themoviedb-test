@@ -1,4 +1,4 @@
-package com.example.spectrum_themoviedb_test.ui.homepage.navigation
+package com.example.spectrum_themoviedb_test.ui.coreNavigationGraph
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
@@ -8,8 +8,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
-import com.example.spectrum_themoviedb_test.ui.Destinations
-import com.example.spectrum_themoviedb_test.ui.Graph
 import com.example.spectrum_themoviedb_test.ui.bookmarkedMovies.FavoritesMoviesScreen
 import com.example.spectrum_themoviedb_test.ui.homepage.screens.HomeScreen
 import com.example.spectrum_themoviedb_test.ui.homepage.screens.NowPlayingScreen
@@ -92,7 +90,7 @@ fun HomeGraph(modifier: Modifier, navController: NavHostController) {
                 }
             }
         ) {
-            PopularScreen()
+            PopularScreen(navController = navController)
         }
         composable(
             route = Destinations.TopRatedScreen.route,

@@ -1,4 +1,4 @@
-package com.example.spectrum_themoviedb_test.ui
+package com.example.spectrum_themoviedb_test.ui.coreNavigationGraph
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
@@ -27,5 +27,4 @@ fun RootNavigationGraph(
 object Graph {
     const val ROOT = "root_graph"
     const val HOME = "main_graph"
-    const val MOVIE_DETAILS = "movie_details_graph"
 }

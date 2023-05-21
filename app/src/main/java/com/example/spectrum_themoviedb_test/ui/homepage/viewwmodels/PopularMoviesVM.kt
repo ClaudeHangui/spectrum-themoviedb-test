@@ -1,6 +1,5 @@
-package com.example.spectrum_themoviedb_test.ui
+package com.example.spectrum_themoviedb_test.ui.homepage.viewwmodels
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.spectrum_themoviedb_test.data.MoviesRepository
@@ -18,83 +17,78 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MoviesVM @Inject constructor(
-    private val moviesRepository: MoviesRepository
-) : ViewModel() {
+class PopularMoviesVM @Inject constructor(
+    private val moviesRepository: MoviesRepository): ViewModel() {
 
-    private val _isRefresh = MutableStateFlow(false)
-    val isRefresh: StateFlow<Boolean> = _isRefresh.asStateFlow()
+    private val _isRefreshPopularScreen = MutableStateFlow(false)
+    val isRefreshPopularScreenState: StateFlow<Boolean> = _isRefreshPopularScreen.asStateFlow()
 
     private val _paginationState = MutableStateFlow(PaginationState())
     val paginationState = _paginationState.asStateFlow()
 
-    private val _nowPlayingState = MutableStateFlow(MoviesState())
-    val nowPlayingState = _nowPlayingState.asStateFlow()
+    private val _popularMoviesState = MutableStateFlow(MoviesState())
+    val popularMoviesState = _popularMoviesState.asStateFlow()
 
     init {
-        if (_nowPlayingState.value.movies.isEmpty()) {
-            Log.e("MoviesVM", "nowPlayingState is empty")
-            getNowPlayingVideos(1)
+        if (_popularMoviesState.value.movies.isEmpty()) {
+            getPopularVideos(1)
         }
     }
 
-
-    private fun getNowPlayingVideos(pageNumber: Int) = viewModelScope.launch {
-        moviesRepository.fetchNowPlayingMovies(pageNumber)
+    fun getPopularVideos(pageNumber: Int) = viewModelScope.launch {
+        moviesRepository.fetchPopularMovies(pageNumber)
             .distinctUntilChanged()
             .onStart {
-                if (_nowPlayingState.value.movies.isEmpty()) {
-                    _nowPlayingState.update { it.copy(isLoading = true) }
+                if (_popularMoviesState.value.movies.isEmpty()) {
+                    _popularMoviesState.update { it.copy(isLoading = true) }
                 }
 
-                if (_nowPlayingState.value.movies.isNotEmpty()) {
+                if (_popularMoviesState.value.movies.isNotEmpty()) {
                     _paginationState.update { it.copy(isLoading = true) }
                 }
-
             }.catch { error ->
-                error.printStackTrace()
-                _nowPlayingState.update {
+                _popularMoviesState.update {
                     it.copy(throwable = error.message ?: "Something went wrong", isLoading = false)
                 }
             }.collect { response ->
-                Log.e("MoviesVM", "updating the local mutable flow")
-                _nowPlayingState.update { movieState ->
-                    movieState.copy(
-                        movies = movieState.movies + response.data,
+                _popularMoviesState.update { popularMoviesState ->
+                    popularMoviesState.copy(
+                        movies = popularMoviesState.movies + response.data,
                         isLoading = false,
-                        nextPageToView = movieState.nextPageToView + 1,
+                        nextPageToView = popularMoviesState.nextPageToView + 1,
                         throwable = null
                     )
                 }
+
                 _paginationState.update { paginationState ->
                     paginationState.copy(
                         isLoading = false,
                         totalPages = if (_paginationState.value.totalPages <= response.totalPages) response.totalPages else _paginationState.value.totalPages,
-                        endReached = response.data.isEmpty() || _nowPlayingState.value.nextPageToView > response.totalPages
+                        endReached = response.data.isEmpty() || _popularMoviesState.value.nextPageToView > response.totalPages
                     )
                 }
             }
     }
 
-    fun refreshMovieList() {
+    fun refreshPopularScreen() {
         viewModelScope.launch {
-            _isRefresh.emit(true)
-            _nowPlayingState.update {
+            _isRefreshPopularScreen.emit(true)
+            _popularMoviesState.update {
                 it.copy(
                     nextPageToView = 1,
                     movies = emptyList(),
                     throwable = null
                 )
             }
-            getNowPlayingVideos(1)
-            _isRefresh.emit(false)
+            getPopularVideos(1)
+            _isRefreshPopularScreen.emit(false)
         }
     }
 
-    fun loadMoreMovies() {
-        if (!_paginationState.value.endReached && _nowPlayingState.value.movies.isNotEmpty()) {
-            Log.e("TAG", "getMoviesPaginated: End reached")
-            getNowPlayingVideos(_nowPlayingState.value.nextPageToView)
+    fun loadMorePopularMovies() {
+        if (!_paginationState.value.endReached && _popularMoviesState.value.movies.isNotEmpty()) {
+            getPopularVideos(_popularMoviesState.value.nextPageToView)
         }
     }
+
 }

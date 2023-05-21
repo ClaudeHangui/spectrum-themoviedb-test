@@ -21,7 +21,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
-fun BoxScope.MovieDetailScreen(
+fun BoxScope.MovieDetailScreenState(
     viewModel: MovieDetailVM = hiltViewModel()
 ) {
     val state by viewModel.movieDetailState.collectAsStateWithLifecycle()
