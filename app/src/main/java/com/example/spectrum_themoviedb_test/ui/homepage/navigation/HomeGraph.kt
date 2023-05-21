@@ -65,13 +65,91 @@ fun HomeGraph(modifier: Modifier, navController: NavHostController) {
             NowPlayingScreen(navController = navController)
         }
 
-        composable(Destinations.PopularScreen.route) {
+        composable(
+            route = Destinations.PopularScreen.route,
+            enterTransition = {
+                when (initialState.destination.route) {
+                    Destinations.MovieDetailScreen.route + "/{movieId}" -> {
+                        enterTransition
+                    }
+                    else -> null
+                }
+            },
+            exitTransition = {
+                when (targetState.destination.route) {
+                    Destinations.MovieDetailScreen.route + "/{movieId}" -> {
+                        exitTransition
+                    }
+                    else -> null
+                }
+            },
+            popEnterTransition = {
+                when (initialState.destination.route) {
+                    Destinations.MovieDetailScreen.route + "/{movieId}" -> {
+                        popEnterTransition
+                    }
+                    else -> null
+                }
+            }
+        ) {
             PopularScreen()
         }
-        composable(Destinations.TopRatedScreen.route) {
+        composable(
+            route = Destinations.TopRatedScreen.route,
+            enterTransition = {
+                when (initialState.destination.route) {
+                    Destinations.MovieDetailScreen.route + "/{movieId}" -> {
+                        enterTransition
+                    }
+                    else -> null
+                }
+            },
+            exitTransition = {
+                when (targetState.destination.route) {
+                    Destinations.MovieDetailScreen.route + "/{movieId}" -> {
+                        exitTransition
+                    }
+                    else -> null
+                }
+            },
+            popEnterTransition = {
+                when (initialState.destination.route) {
+                    Destinations.MovieDetailScreen.route + "/{movieId}" -> {
+                        popEnterTransition
+                    }
+                    else -> null
+                }
+            }
+        ) {
             TopRatedScreen()
         }
-        composable(Destinations.UpcomingScreen.route) {
+        composable(
+            route = Destinations.UpcomingScreen.route,
+            enterTransition = {
+                when (initialState.destination.route) {
+                    Destinations.MovieDetailScreen.route + "/{movieId}" -> {
+                        enterTransition
+                    }
+                    else -> null
+                }
+            },
+            exitTransition = {
+                when (targetState.destination.route) {
+                    Destinations.MovieDetailScreen.route + "/{movieId}" -> {
+                        exitTransition
+                    }
+                    else -> null
+                }
+            },
+            popEnterTransition = {
+                when (initialState.destination.route) {
+                    Destinations.MovieDetailScreen.route + "/{movieId}" -> {
+                        popEnterTransition
+                    }
+                    else -> null
+                }
+            }
+        ) {
             UpcomingScreen()
         }
 
