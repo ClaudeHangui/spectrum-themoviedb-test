@@ -9,6 +9,7 @@
     <string name="not_available">N/A</string>
     <string name="favorites_movies">Favorite Movies\n</string>
     <string name="search_movie_hint">Type the movie name and press enter</string>
+    <string name="no_movie_found">No movie matching your query could be found.</string>
     <plurals name="vote_count">
         <item quantity="one">%d vote</item>
         <item quantity="other">%d votes</item>

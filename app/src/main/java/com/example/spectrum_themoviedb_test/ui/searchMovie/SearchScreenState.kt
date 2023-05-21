@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -34,6 +35,20 @@ fun BoxScope.SearchScreenState(
 
         if (it.isScreenInit) {
             ShowInitScreen()
+        }
+
+        if (it.isNoMovieFound) {
+            Text(
+                text = stringResource(id = R.string.no_movie_found),
+                fontSize = MaterialTheme.typography.bodyLarge.fontSize,
+                fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
+                    .align(Alignment.Center),
+
+            )
         }
 
         it.throwable?.let { error ->

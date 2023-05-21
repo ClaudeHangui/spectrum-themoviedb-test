@@ -9,7 +9,8 @@ data class MoviesState(
     val movies: List<BaseMovieModel> = emptyList(),
     val throwable: String? = null,
     val nextPageToView: Int = 1,
-    val isScreenInit: Boolean = true
+    val isScreenInit: Boolean = true,
+    val isNoMovieFound: Boolean = false
 )
 
 data class MovieDetailState(

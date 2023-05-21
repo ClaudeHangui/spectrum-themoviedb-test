@@ -33,7 +33,7 @@ class SearchViewModel @Inject constructor(
     var previousQuery: String? = null
 
     fun performQuery(query: String, pageNumber: Int) = viewModelScope.launch {
-        if (query.isNotEmpty() && !query.equals(previousQuery, ignoreCase = true)){
+        if (query.isNotEmpty() && !query.equals(previousQuery, ignoreCase = true)) {
             resetScreen()
         }
 
@@ -63,6 +63,7 @@ class SearchViewModel @Inject constructor(
                         movies = movieState.movies + response.data,
                         isLoading = false,
                         nextPageToView = movieState.nextPageToView + 1,
+                        isNoMovieFound = movieState.movies.isEmpty() && response.data.isEmpty(),
                         throwable = null
                     )
                 }
@@ -80,8 +81,23 @@ class SearchViewModel @Inject constructor(
     private fun resetScreen() {
         viewModelScope.launch {
             _isResetScreenState.emit(true)
-            _searchedMoviesState.update { it.copy(movies = emptyList(), isLoading = false, throwable = null, nextPageToView = 1) }
-            _paginationState.update { it.copy(isLoading = false, totalPages = 1, endReached = false) }
+            _searchedMoviesState.update {
+                it.copy(
+                    movies = emptyList(),
+                    isLoading = false,
+                    throwable = null,
+                    isNoMovieFound = false,
+                    isScreenInit = false,
+                    nextPageToView = 1
+                )
+            }
+            _paginationState.update {
+                it.copy(
+                    isLoading = false,
+                    totalPages = 1,
+                    endReached = false
+                )
+            }
             _isResetScreenState.emit(false)
         }
     }
