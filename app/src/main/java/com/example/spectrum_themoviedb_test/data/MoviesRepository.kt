@@ -44,7 +44,7 @@ class MoviesRepository @Inject constructor(
         val apiResponse = api.getPopularMovies(movieId)
         val mapResult = movieListMapper.mapToUIModel(apiResponse)
         emit(mapResult)
-    }
+    }.flowOn(Dispatchers.IO)
 
     fun addMovieToBookmarks(movie: UiMovieDetail) = dao.bookmarkMovie(movie).toInt()
 

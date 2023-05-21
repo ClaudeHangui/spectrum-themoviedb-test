@@ -3,8 +3,8 @@ package com.example.spectrum_themoviedb_test.util
 import javax.inject.Inject
 
 class DateFormatterHelper @Inject constructor(private val dateWrapper: DateWrapper) {
-    fun formatDate(date: String, datePattern: String): String {
-        if (date.isEmpty()) {
+    fun formatDate(date: String?, datePattern: String): String {
+        if (date.isNullOrEmpty()) {
             return ""
         }
         val formatter = dateWrapper.getFormatterForPattern(datePattern)

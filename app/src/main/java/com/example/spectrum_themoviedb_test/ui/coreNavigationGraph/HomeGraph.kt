@@ -148,7 +148,7 @@ fun HomeGraph(modifier: Modifier, navController: NavHostController) {
                 }
             }
         ) {
-            UpcomingScreen()
+            UpcomingScreen(navController = navController)
         }
 
         detailsNavGraph(navController = navController, navGraphBuilder = this)

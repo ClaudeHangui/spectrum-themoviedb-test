@@ -60,7 +60,7 @@ fun TopRatedScreen(
 
             SwipeRefresh(
                 state = rememberSwipeRefreshState(isRefreshing = refreshState),
-                onRefresh = { viewModel.refreshPopularScreen() }) {
+                onRefresh = { viewModel.refreshTopRatedScreen() }) {
                 LazyVerticalStaggeredGrid(
                     columns = StaggeredGridCells.Fixed(2),
                     modifier = Modifier
@@ -96,7 +96,7 @@ fun TopRatedScreen(
                 }
 
                 InfiniteListHandler(lazyListState = lazyListState) {
-                    viewModel.loadMorePopularMovies()
+                    viewModel.loadMoreTopRatedMovies()
                 }
 
             }

@@ -16,7 +16,7 @@ data class MovieDetailApiResponse(
     val poster_path: String,
     val production_companies: List<ProductionCompany>,
     val production_countries: List<ProductionCountry>,
-    val release_date: String,
+    val release_date: String?,
     val revenue: Int,
     val runtime: Int,
     val spoken_languages: List<SpokenLanguage>,
