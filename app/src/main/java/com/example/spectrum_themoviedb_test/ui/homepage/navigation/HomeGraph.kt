@@ -60,19 +60,6 @@ fun HomeGraph(modifier: Modifier, navController: NavHostController) {
                     else -> null
                 }
             },
-            popEnterTransition = {
-                when (initialState.destination.route) {
-                    Destinations.MovieDetailScreen.route + "/{movieId}" -> {
-                        popEnterTransition
-                    }
-
-                    Destinations.FavoriteMoviesScreen.route -> {
-                        popEnterTransition
-                    }
-
-                    else -> null
-                }
-            }
         ) {
             NowPlayingScreen(navController = navController)
         }
@@ -109,16 +96,6 @@ fun HomeGraph(modifier: Modifier, navController: NavHostController) {
                     else -> null
                 }
             },
-            popEnterTransition = {
-                when (initialState.destination.route) {
-                    Destinations.MovieDetailScreen.route + "/{movieId}" -> {
-                        popEnterTransition
-                    }
-
-                    else -> null
-                }
-            }
-
         ) {
             SearchMovieScreen(
                 navigateBack = { navController.popBackStack() },
@@ -149,15 +126,6 @@ fun HomeGraph(modifier: Modifier, navController: NavHostController) {
                     else -> null
                 }
             },
-            popEnterTransition = {
-                when (initialState.destination.route) {
-                    Destinations.MovieDetailScreen.route + "/{movieId}" -> {
-                        popEnterTransition
-                    }
-
-                    else -> null
-                }
-            }
 
         ) {
             FavoritesMoviesScreen(
@@ -212,21 +180,6 @@ private fun detailsNavGraph(
                 else -> null
             }
         },
-        popEnterTransition = {
-            when (initialState.destination.route) {
-                Destinations.NowPlayingScreen.route -> {
-                    popEnterTransition
-                }
-                Destinations.SearchScreen.route -> {
-                    popEnterTransition
-                }
-                Destinations.FavoriteMoviesScreen.route -> {
-                    popEnterTransition
-                }
-
-                else -> null
-            }
-        }
 
     ) { navBackStackEntry ->
         val args = navBackStackEntry.arguments

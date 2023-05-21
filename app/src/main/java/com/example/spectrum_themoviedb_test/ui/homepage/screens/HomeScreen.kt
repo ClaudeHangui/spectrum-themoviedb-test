@@ -1,6 +1,5 @@
 package com.example.spectrum_themoviedb_test.ui.homepage.screens
 
-import android.widget.Toast
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
@@ -51,7 +50,6 @@ fun HomeScreen(navController: NavHostController = rememberAnimatedNavController(
 
 @Composable
 fun MyUI(navController: NavHostController) {
-    val contextForToast = LocalContext.current.applicationContext
 
     TopAppBar(
         title = {

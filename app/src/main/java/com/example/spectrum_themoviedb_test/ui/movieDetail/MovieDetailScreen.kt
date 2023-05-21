@@ -24,8 +24,10 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.ThumbUp
+import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.ThumbUp
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -135,12 +137,12 @@ fun MovieDetailScreen(
                 ) {
                     Icon(
                         imageVector = if (movie.bookmarked) {
-                            Icons.Filled.ThumbUp
+                            Icons.Filled.Favorite
                         } else {
-                            Icons.Outlined.ThumbUp
+                            Icons.Outlined.Favorite
                         },
                         tint = if (movie.bookmarked) Color.Red else Color.White,
-                        modifier = Modifier.size(32.dp),
+                        modifier = Modifier.size(36.dp),
                         contentDescription = null)
                 }
 

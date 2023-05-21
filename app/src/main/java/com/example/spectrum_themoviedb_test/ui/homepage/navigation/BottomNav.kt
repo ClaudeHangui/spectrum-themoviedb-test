@@ -1,6 +1,5 @@
 package com.example.spectrum_themoviedb_test.ui.homepage.navigation
 
-import android.util.Log
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -10,7 +9,6 @@ import androidx.compose.material.LocalContentColor
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -25,7 +23,6 @@ fun BottomBarNav(navController: NavHostController) {
     val currentDestination = navBackStackEntry?.destination
     val bottomBarDestination = screens.any { it.route == currentDestination?.route }
     if (bottomBarDestination) {
-        Log.e("BottomBarNav", "bottomBarDestination: $bottomBarDestination")
         BottomNavigation {
             screens.forEach { screen ->
                 AddItem(
@@ -59,7 +56,6 @@ fun RowScope.AddItem(
             screen.icon?.let {
                 Icon(
                     imageVector = it,
-                    tint = Color.LightGray,
                     contentDescription = "Navigation Icon"
                 )
             }

@@ -4,7 +4,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class Destinations(
@@ -20,7 +22,7 @@ sealed class Destinations(
     object PopularScreen : Destinations(
         route = "popular_screen",
         title = "Popular",
-        icon = Icons.Default.Favorite
+        icon = Icons.Default.ThumbUp
     )
     object TopRatedScreen : Destinations(
         route = "top_rated_screen",
@@ -30,7 +32,7 @@ sealed class Destinations(
     object UpcomingScreen : Destinations(
         route = "upcoming_screen",
         title = "Upcoming",
-        icon = Icons.Default.DateRange
+        icon = Icons.Default.Refresh
     )
 
     object MovieDetailScreen : Destinations("movie_detail_screen"){

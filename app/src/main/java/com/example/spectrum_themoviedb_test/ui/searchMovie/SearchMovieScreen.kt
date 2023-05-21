@@ -17,15 +17,17 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.outlined.KeyboardArrowLeft
+import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -39,14 +41,14 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.spectrum_themoviedb_test.R
 import com.example.spectrum_themoviedb_test.ui.homepage.components.InfiniteListHandler
 import com.example.spectrum_themoviedb_test.ui.homepage.components.MovieCard
 
@@ -65,14 +67,14 @@ fun SearchMovieScreen(navigateBack: () -> Unit,
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF161520))
+            .background(color = Color.LightGray)
     ){
         Column (
             modifier = Modifier,
             verticalArrangement = Arrangement.Top
                 ) {
             SearchBar(
-                hint = "Search Movie",
+                hint = stringResource(id = R.string.search_movie_hint),
                 modifier = Modifier
                     .padding(10.dp)
                     .fillMaxWidth(),
@@ -193,7 +195,12 @@ fun SearchBar(
             )
         },
         singleLine = true,
-        shape = RectangleShape
+        shape = RoundedCornerShape(26.dp),
+        colors = TextFieldDefaults.textFieldColors(
+            backgroundColor = Color.DarkGray,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+        )
     )
 }
 
@@ -206,11 +213,7 @@ fun BackStackButton(
     IconButton(onClick = { onCLick() }) {
         Icon(
             tint = color,
-            modifier = modifier.graphicsLayer {
-                scaleX = 1.3f
-                scaleY = 1.3f
-            },
-            imageVector = Icons.Outlined.KeyboardArrowLeft,
+            imageVector = Icons.Outlined.ArrowBack,
             contentDescription = null
         )
     }
