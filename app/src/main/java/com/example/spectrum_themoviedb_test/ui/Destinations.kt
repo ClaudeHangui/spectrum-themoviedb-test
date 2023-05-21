@@ -1,8 +1,6 @@
 package com.example.spectrum_themoviedb_test.ui
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Star
@@ -41,6 +39,8 @@ sealed class Destinations(
     object FavoriteMoviesScreen : Destinations("bookmarks_screen")
 
     object SearchScreen : Destinations("search_screen")
+
+    object HomeScreen : Destinations("home_screen")
 
     fun withArgsFormat(vararg args: String) : String {
         return buildString {
