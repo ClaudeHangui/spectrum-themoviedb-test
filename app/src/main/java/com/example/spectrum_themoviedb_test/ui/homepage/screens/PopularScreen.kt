@@ -25,16 +25,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.example.spectrum_themoviedb_test.R
+import com.example.spectrum_themoviedb_test.ui.commons.InternetConnectivityManger
 import com.example.spectrum_themoviedb_test.ui.coreNavigationGraph.Destinations
 import com.example.spectrum_themoviedb_test.ui.homepage.components.InfiniteListHandler
 import com.example.spectrum_themoviedb_test.ui.homepage.components.MovieCard
 import com.example.spectrum_themoviedb_test.ui.homepage.components.ShowLoader
 import com.example.spectrum_themoviedb_test.ui.homepage.viewwmodels.PopularMoviesVM
+import com.example.spectrum_themoviedb_test.ui.utils.isInternetError
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
@@ -115,17 +119,22 @@ fun BoxScope.PopularScreenState(viewModel: PopularMoviesVM = hiltViewModel()) {
             ShowLoader()
         }
         it.throwable?.let { error ->
-            if (error.isNotEmpty()) {
-                Text(
-                    text = error,
-                    color = MaterialTheme.colorScheme.error,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 20.dp)
-                        .align(Alignment.Center)
-                )
+            Text(
+                text = if (error.isInternetError()) {
+                    stringResource(id = R.string.no_internet_connection)
+                } else {
+                    stringResource(id = R.string.something_went_wrong)
+                },
+                color = MaterialTheme.colorScheme.error,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
+                    .align(Alignment.Center)
+            )
 
+            InternetConnectivityManger {
+                viewModel.refreshPopularScreen()
             }
         }
     }

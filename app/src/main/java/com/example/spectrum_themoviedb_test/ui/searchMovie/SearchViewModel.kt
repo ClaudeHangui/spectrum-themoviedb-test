@@ -52,7 +52,7 @@ class SearchViewModel @Inject constructor(
             }.catch { error ->
                 _searchedMoviesState.update {
                     it.copy(
-                        throwable = error.message ?: "Something went wrong",
+                        throwable = error,
                         isLoading = false
                     )
                 }

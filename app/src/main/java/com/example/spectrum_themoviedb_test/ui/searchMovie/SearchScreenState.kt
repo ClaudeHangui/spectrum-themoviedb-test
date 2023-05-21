@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.spectrum_themoviedb_test.R
+import com.example.spectrum_themoviedb_test.ui.utils.isInternetError
 
 @Composable
 fun BoxScope.SearchScreenState(
@@ -52,18 +53,19 @@ fun BoxScope.SearchScreenState(
         }
 
         it.throwable?.let { error ->
-            if (error.isNotEmpty()){
-                Text(
-                    text = error,
-                    color = MaterialTheme.colorScheme.error,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 20.dp)
-                        .align(Alignment.Center)
-                )
-
-            }
+           Text(
+                text = if (error.isInternetError()) {
+                    stringResource(id = R.string.no_internet_connection)
+                } else {
+                    stringResource(id = R.string.something_went_wrong)
+                },
+                color = MaterialTheme.colorScheme.error,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
+                    .align(Alignment.Center)
+            )
         }
     }
 }

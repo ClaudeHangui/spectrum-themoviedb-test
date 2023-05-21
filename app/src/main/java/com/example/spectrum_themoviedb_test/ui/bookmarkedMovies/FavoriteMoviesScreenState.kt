@@ -41,18 +41,16 @@ fun BoxScope.FavoriteMoviesScreenState(
         }
 
         it.throwable?.let { error ->
-            if (error.isNotEmpty()){
-                Text(
-                    text = error,
-                    color = MaterialTheme.colorScheme.error,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 20.dp)
-                        .align(Alignment.Center)
-                )
-
-            }
+            error.printStackTrace()
+            Text(
+                text = stringResource(id = R.string.something_went_wrong),
+                color = MaterialTheme.colorScheme.error,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
+                    .align(Alignment.Center)
+            )
         }
     }
 }

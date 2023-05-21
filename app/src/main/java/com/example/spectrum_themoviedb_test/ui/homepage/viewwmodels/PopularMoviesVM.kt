@@ -48,7 +48,7 @@ class PopularMoviesVM @Inject constructor(
                 }
             }.catch { error ->
                 _popularMoviesState.update {
-                    it.copy(throwable = error.message ?: "Something went wrong", isLoading = false)
+                    it.copy(throwable = error, isLoading = false)
                 }
             }.collect { response ->
                 _popularMoviesState.update { popularMoviesState ->

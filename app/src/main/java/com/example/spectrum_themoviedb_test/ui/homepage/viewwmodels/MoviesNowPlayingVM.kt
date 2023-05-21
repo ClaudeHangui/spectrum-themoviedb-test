@@ -53,7 +53,7 @@ class MoviesNowPlayingVM @Inject constructor(
             }.catch { error ->
                 error.printStackTrace()
                 _nowPlayingState.update {
-                    it.copy(throwable = error.message ?: "Something went wrong", isLoading = false)
+                    it.copy(throwable = error, isLoading = false)
                 }
             }.collect { response ->
                 Log.e("MoviesVM", "updating the local mutable flow")

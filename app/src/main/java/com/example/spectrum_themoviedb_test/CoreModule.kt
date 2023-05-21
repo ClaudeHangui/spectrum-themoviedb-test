@@ -15,7 +15,6 @@ import com.example.spectrum_themoviedb_test.util.Constants.BASE_URL
 import com.example.spectrum_themoviedb_test.util.Constants.DB_NAME
 import com.example.spectrum_themoviedb_test.util.DateFormatterHelper
 import com.example.spectrum_themoviedb_test.util.DateWrapper
-import com.example.spectrum_themoviedb_test.util.InternetStateManager
 import com.example.spectrum_themoviedb_test.util.ResourceHelper
 import com.example.spectrum_themoviedb_test.util.SdkManager
 import com.google.gson.Gson
@@ -90,14 +89,6 @@ abstract class CoreModule {
 
         @Provides
         fun provideSdkManager() = SdkManager()
-
-        @Provides
-        fun provideInternetStateManager(
-            connectivityManager: ConnectivityManager,
-            networkRequest: NetworkRequest.Builder,
-            sdkManager: SdkManager
-        ) =
-            InternetStateManager(connectivityManager, networkRequest, sdkManager)
 
         @Provides
         fun provideRestService(retrofitBuilder: Retrofit.Builder): MovieDbApi {
