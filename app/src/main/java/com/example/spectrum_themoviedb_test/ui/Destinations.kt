@@ -36,7 +36,7 @@ sealed class Destinations(
     object MovieDetailScreen : Destinations("movie_detail_screen"){
         val movieId = "movieId"
     }
-    object BookmarksScreen : Destinations("bookmarks_screen")
+    object FavoriteMoviesScreen : Destinations("bookmarks_screen")
 
     object SearchScreen : Destinations("search_screen")
 

@@ -5,7 +5,9 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.example.spectrum_themoviedb_test.data.Genre
+import com.example.spectrum_themoviedb_test.data.model.BaseMovieModel
 import com.example.spectrum_themoviedb_test.data.model.UiMovieDetail
+import com.example.spectrum_themoviedb_test.data.model.UiMovieItem
 
 @Dao
 interface MoviesDao {

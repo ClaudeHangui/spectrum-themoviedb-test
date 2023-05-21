@@ -69,9 +69,10 @@ fun MyUI(navController: NavHostController) {
             )
             TopAppBarActionButton(
                 imageVector = Icons.Outlined.Favorite,
-                description = "Login",
+                description = "Favorite",
                 onClick = {
-                    Toast.makeText(contextForToast, "Login", Toast.LENGTH_SHORT).show()
+                    navController.navigate(Destinations.FavoriteMoviesScreen.route)
+
                 }
             )
         }

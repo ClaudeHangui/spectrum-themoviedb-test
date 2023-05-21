@@ -45,6 +45,8 @@ class MoviesRepository @Inject constructor(
 
     fun removeMovieFromBookmarks(movie: UiMovieDetail) = dao.unBookmarkMovie(movie)
 
+    fun getBookmarkedMovies() = dao.getAllBookmarkedMovies()
+
     fun searchMovie(query: String, page: Int) = flow {
         val apiResponse = api.getSearchedMovies(query, page)
         val mapResult = movieListMapper.mapToUIModel(apiResponse)

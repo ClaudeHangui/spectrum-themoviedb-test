@@ -7,6 +7,7 @@
     <string name="screen_title_upcoming">Upcoming</string>
     <string name="no_rating">No reviews available for this movie</string>
     <string name="not_available">N/A</string>
+    <string name="favorites_movies">Favorite Movies\n</string>
     <plurals name="vote_count">
         <item quantity="one">%d vote</item>
         <item quantity="other">%d votes</item>

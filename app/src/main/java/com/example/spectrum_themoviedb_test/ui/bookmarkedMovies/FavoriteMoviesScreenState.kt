@@ -1,4 +1,4 @@
-package com.example.spectrum_themoviedb_test.ui.searchMovie
+package com.example.spectrum_themoviedb_test.ui.bookmarkedMovies
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxScope
@@ -19,10 +19,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.spectrum_themoviedb_test.ui.searchMovie.SearchViewModel
+
 
 @Composable
-fun BoxScope.SearchScreenState(
-    viewModel: SearchViewModel = hiltViewModel()) {
+fun BoxScope.FavoriteMoviesScreenState(
+    viewModel: SearchViewModel = hiltViewModel()
+) {
     val state by viewModel.searchedMoviesState.collectAsStateWithLifecycle()
     state.let {
         if (it.isLoading) {
@@ -60,4 +63,3 @@ fun ShowLoader() {
         )
     }
 }
-

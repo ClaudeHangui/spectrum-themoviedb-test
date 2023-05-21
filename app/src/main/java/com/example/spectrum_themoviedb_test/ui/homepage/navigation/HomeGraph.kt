@@ -10,6 +10,7 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.example.spectrum_themoviedb_test.ui.Destinations
 import com.example.spectrum_themoviedb_test.ui.Graph
+import com.example.spectrum_themoviedb_test.ui.bookmarkedMovies.FavoritesMoviesScreen
 import com.example.spectrum_themoviedb_test.ui.homepage.screens.NowPlayingScreen
 import com.example.spectrum_themoviedb_test.ui.homepage.screens.PopularScreen
 import com.example.spectrum_themoviedb_test.ui.homepage.screens.TopRatedScreen
@@ -39,7 +40,7 @@ fun HomeGraph(modifier: Modifier, navController: NavHostController) {
                         enterTransition
                     }
 
-                    Destinations.BookmarksScreen.route -> {
+                    Destinations.FavoriteMoviesScreen.route -> {
                         enterTransition
                     }
 
@@ -52,7 +53,7 @@ fun HomeGraph(modifier: Modifier, navController: NavHostController) {
                         exitTransition
                     }
 
-                    Destinations.BookmarksScreen.route -> {
+                    Destinations.FavoriteMoviesScreen.route -> {
                         exitTransition
                     }
 
@@ -65,7 +66,7 @@ fun HomeGraph(modifier: Modifier, navController: NavHostController) {
                         popEnterTransition
                     }
 
-                    Destinations.BookmarksScreen.route -> {
+                    Destinations.FavoriteMoviesScreen.route -> {
                         popEnterTransition
                     }
 
@@ -126,6 +127,46 @@ fun HomeGraph(modifier: Modifier, navController: NavHostController) {
                 }
             )
         }
+
+
+        composable(
+            route = Destinations.FavoriteMoviesScreen.route,
+            enterTransition = {
+                when (initialState.destination.route) {
+                    Destinations.MovieDetailScreen.route + "/{movieId}" -> {
+                        enterTransition
+                    }
+                    else -> null
+                }
+            },
+
+            exitTransition = {
+                when (targetState.destination.route) {
+                    Destinations.MovieDetailScreen.route + "/{movieId}" -> {
+                        exitTransition
+                    }
+
+                    else -> null
+                }
+            },
+            popEnterTransition = {
+                when (initialState.destination.route) {
+                    Destinations.MovieDetailScreen.route + "/{movieId}" -> {
+                        popEnterTransition
+                    }
+
+                    else -> null
+                }
+            }
+
+        ) {
+            FavoritesMoviesScreen(
+                navigateBack = { navController.popBackStack() },
+                navigateMovieDetail = { movieId ->
+                    navController.navigate(Destinations.MovieDetailScreen.route + "/${movieId}")
+                }
+            )
+        }
     }
 }
 
@@ -149,6 +190,9 @@ private fun detailsNavGraph(
                 Destinations.SearchScreen.route -> {
                     enterTransition
                 }
+                Destinations.FavoriteMoviesScreen.route -> {
+                    enterTransition
+                }
 
                 else -> null
             }
@@ -161,6 +205,9 @@ private fun detailsNavGraph(
                 Destinations.SearchScreen.route -> {
                     exitTransition
                 }
+                Destinations.FavoriteMoviesScreen.route -> {
+                    exitTransition
+                }
 
                 else -> null
             }
@@ -171,6 +218,9 @@ private fun detailsNavGraph(
                     popEnterTransition
                 }
                 Destinations.SearchScreen.route -> {
+                    popEnterTransition
+                }
+                Destinations.FavoriteMoviesScreen.route -> {
                     popEnterTransition
                 }
 

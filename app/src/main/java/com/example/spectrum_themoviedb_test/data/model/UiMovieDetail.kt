@@ -10,20 +10,20 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class UiMovieDetail(
     @ColumnInfo(name = "id")
-    @PrimaryKey var movieId: Int = -1,
-    var title: String = "",
+    @PrimaryKey override var movieId: Int = -1,
+    override var title: String = "",
     @ColumnInfo(name = "backdrop_path")
     var backDropPath: String? = null,
     @ColumnInfo(name = "poster_path")
-    var posterPath: String? = null,
+    override var posterPath: String? = null,
     @ColumnInfo(name = "vote_average")
-    var voteAverage: Double = 0.0,
+    override var voteAverage: Double = 0.0,
     @ColumnInfo(name = "vote_count")
-    var voteCount: Int = 0,
+    override var voteCount: Int = 0,
     @ColumnInfo(name = "release_date")
-    var releaseDate: String = "",
+    override var releaseDate: String = "",
     @ColumnInfo(name = "movie_genres")
-    var genre: List<String> = emptyList(),
+    override var genre: List<String> = emptyList(),
     var overview: String = "",
     var status: String = "",
     @ColumnInfo(name = "tag_line")
@@ -32,7 +32,7 @@ data class UiMovieDetail(
     var spokenLanguages: List<String> = emptyList(),
     @Ignore
     var bookmarked: Boolean = false
-){
+): BaseMovieModel{
     companion object {
         val EMPTY = UiMovieDetail()
     }

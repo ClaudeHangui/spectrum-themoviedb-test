@@ -1,14 +1,14 @@
 package com.example.spectrum_themoviedb_test.data.model
 
 data class UiMovieItem(
-    val movieId: Int,
-    val posterPath: String?,
-    val title: String,
-    val voteAverage: Double,
-    val voteCount: Int,
-    val releaseDate: String,
-    val genre: List<String>
-) {
+    override val movieId: Int,
+    override val posterPath: String?,
+    override val title: String,
+    override val voteAverage: Double,
+    override val voteCount: Int,
+    override val releaseDate: String,
+    override val genre: List<String>
+): BaseMovieModel {
     companion object {
         val NO_DATA = UiMovieItem(
             movieId = 0,
