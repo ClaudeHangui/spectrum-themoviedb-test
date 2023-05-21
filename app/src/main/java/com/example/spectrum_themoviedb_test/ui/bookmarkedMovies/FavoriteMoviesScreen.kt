@@ -54,9 +54,6 @@ fun FavoritesMoviesScreen(
                         modifier = Modifier.padding(top = 16.dp),
                         fontSize = MaterialTheme.typography.h6.fontSize,
                         color = Color.White,
-
-                        //color = Color.DarkGray,
-                        //textAlign = TextAlign.Center
                     )
                 },
                 backgroundColor = Color(0xFF6650a4),
@@ -85,6 +82,7 @@ fun FavoritesMoviesScreen(
                 }
             }
         }
+        FavoriteMoviesScreenState()
     }
 
 }
