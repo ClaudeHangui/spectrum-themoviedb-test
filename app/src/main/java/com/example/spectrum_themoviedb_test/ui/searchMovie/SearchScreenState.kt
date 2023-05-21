@@ -75,7 +75,7 @@ fun ShowInitScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Icon(
-            painter = painterResource(id = R.drawable.search_movie),
+            painter = painterResource(id = R.drawable.movie_search_icon),
             modifier = Modifier.size(size = 200.dp),
             contentDescription = null)
     }
