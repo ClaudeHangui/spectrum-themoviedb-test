@@ -14,44 +14,38 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
-class PopularMoviesVM @Inject constructor(
-    private val moviesRepository: MoviesRepository): ViewModel() {
+class TopRatedMoviesVM(
+    private val moviesRepository: MoviesRepository
+): ViewModel() {
 
-    private val _isRefreshPopularScreen = MutableStateFlow(false)
-    val isRefreshPopularScreenState: StateFlow<Boolean> = _isRefreshPopularScreen.asStateFlow()
+    private val _isRefreshTopRatedScreen = MutableStateFlow(false)
+    val isRefreshTopRatedScreen: StateFlow<Boolean> = _isRefreshTopRatedScreen.asStateFlow()
 
     private val _paginationState = MutableStateFlow(PaginationState())
     val paginationState = _paginationState.asStateFlow()
 
-    private val _popularMoviesState = MutableStateFlow(MoviesState())
-    val popularMoviesState = _popularMoviesState.asStateFlow()
+    private val _topRatedMoviesState = MutableStateFlow(MoviesState())
+    val topRatedMoviesState = _topRatedMoviesState.asStateFlow()
 
-    init {
-        if (_popularMoviesState.value.movies.isEmpty()) {
-            getPopularVideos(1)
-        }
-    }
-
-    private fun getPopularVideos(pageNumber: Int) = viewModelScope.launch {
+    private fun getTopRatedMovies(pageNumber: Int) = viewModelScope.launch {
         moviesRepository.fetchPopularMovies(pageNumber)
             .distinctUntilChanged()
             .onStart {
-                if (_popularMoviesState.value.movies.isEmpty()) {
-                    _popularMoviesState.update { it.copy(isLoading = true) }
+                if (_topRatedMoviesState.value.movies.isEmpty()) {
+                    _topRatedMoviesState.update { it.copy(isLoading = true) }
                 }
 
-                if (_popularMoviesState.value.movies.isNotEmpty()) {
+                if (_topRatedMoviesState.value.movies.isNotEmpty()) {
                     _paginationState.update { it.copy(isLoading = true) }
                 }
             }.catch { error ->
-                _popularMoviesState.update {
+                _topRatedMoviesState.update {
                     it.copy(throwable = error.message ?: "Something went wrong", isLoading = false)
                 }
             }.collect { response ->
-                _popularMoviesState.update { popularMoviesState ->
+                _topRatedMoviesState.update { popularMoviesState ->
                     popularMoviesState.copy(
                         movies = popularMoviesState.movies + response.data,
                         isLoading = false,
@@ -64,31 +58,31 @@ class PopularMoviesVM @Inject constructor(
                     paginationState.copy(
                         isLoading = false,
                         totalPages = if (_paginationState.value.totalPages <= response.totalPages) response.totalPages else _paginationState.value.totalPages,
-                        endReached = response.data.isEmpty() || _popularMoviesState.value.nextPageToView > response.totalPages
+                        endReached = response.data.isEmpty() || _topRatedMoviesState.value.nextPageToView > response.totalPages
                     )
                 }
             }
     }
 
+
     fun refreshPopularScreen() {
         viewModelScope.launch {
-            _isRefreshPopularScreen.emit(true)
-            _popularMoviesState.update {
+            _isRefreshTopRatedScreen.emit(true)
+            _topRatedMoviesState.update {
                 it.copy(
                     nextPageToView = 1,
                     movies = emptyList(),
                     throwable = null
                 )
             }
-            getPopularVideos(1)
-            _isRefreshPopularScreen.emit(false)
+            getTopRatedMovies(1)
+            _isRefreshTopRatedScreen.emit(false)
         }
     }
 
     fun loadMorePopularMovies() {
-        if (!_paginationState.value.endReached && _popularMoviesState.value.movies.isNotEmpty()) {
-            getPopularVideos(_popularMoviesState.value.nextPageToView)
+        if (!_paginationState.value.endReached && _topRatedMoviesState.value.movies.isNotEmpty()) {
+            getTopRatedMovies(_topRatedMoviesState.value.nextPageToView)
         }
     }
-
 }

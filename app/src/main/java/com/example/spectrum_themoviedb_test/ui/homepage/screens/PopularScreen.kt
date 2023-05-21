@@ -111,11 +111,11 @@ fun PopularScreen(
 fun BoxScope.PopularScreenState(viewModel: PopularMoviesVM = hiltViewModel()) {
     val state by viewModel.popularMoviesState.collectAsStateWithLifecycle()
     state.let {
-        if(it.isLoading){
+        if (it.isLoading) {
             ShowLoader()
         }
         it.throwable?.let { error ->
-            if (error.isNotEmpty()){
+            if (error.isNotEmpty()) {
                 Text(
                     text = error,
                     color = MaterialTheme.colorScheme.error,

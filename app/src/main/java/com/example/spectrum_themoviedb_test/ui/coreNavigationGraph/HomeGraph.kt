@@ -119,7 +119,7 @@ fun HomeGraph(modifier: Modifier, navController: NavHostController) {
                 }
             }
         ) {
-            TopRatedScreen()
+            TopRatedScreen(navController = navController)
         }
         composable(
             route = Destinations.UpcomingScreen.route,
