@@ -36,11 +36,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -128,6 +130,7 @@ fun SearchMovieScreen(navigateBack: () -> Unit,
 
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SearchBar(
     hint: String,
@@ -138,6 +141,7 @@ fun SearchBar(
 
 ) {
     val focusRequester = remember { FocusRequester() }
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     var isHintDisplayed by remember {
         mutableStateOf(hint != "")
@@ -161,6 +165,8 @@ fun SearchBar(
         keyboardActions = KeyboardActions (
             onDone = {
                 viewModel.performQuery(state.value.text, 1)
+                focusRequester.freeFocus()
+                keyboardController?.hide()
             }
         ),
         textStyle = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onPrimary),
