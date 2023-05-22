@@ -2,10 +2,12 @@ package com.example.spectrum_themoviedb_test.ui.homepage.viewwmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.spectrum_themoviedb_test.MainDispatcher
 import com.example.spectrum_themoviedb_test.data.MoviesRepository
 import com.example.spectrum_themoviedb_test.ui.homepage.state.MoviesState
 import com.example.spectrum_themoviedb_test.ui.homepage.state.PaginationState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,7 +20,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PopularMoviesVM @Inject constructor(
-    private val moviesRepository: MoviesRepository): ViewModel() {
+    private val moviesRepository: MoviesRepository,
+    @MainDispatcher private val dispatcher: CoroutineDispatcher
+) : ViewModel() {
 
     private val _isRefreshPopularScreen = MutableStateFlow(false)
     val isRefreshPopularScreenState: StateFlow<Boolean> = _isRefreshPopularScreen.asStateFlow()
@@ -35,7 +39,7 @@ class PopularMoviesVM @Inject constructor(
         }
     }
 
-    private fun getPopularVideos(pageNumber: Int) = viewModelScope.launch {
+    private fun getPopularVideos(pageNumber: Int) = viewModelScope.launch(dispatcher) {
         moviesRepository.fetchPopularMovies(pageNumber)
             .distinctUntilChanged()
             .onStart {
