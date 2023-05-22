@@ -1,6 +1,6 @@
 package com.example.spectrum_themoviedb_test.data.model
 
-interface BaseMovieModel {
+interface BaseUiMovieModel {
     val movieId: Int
     val posterPath: String?
     val title: String?

@@ -34,15 +34,14 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Visibility
 import coil.compose.AsyncImage
 import com.example.spectrum_themoviedb_test.R
-import com.example.spectrum_themoviedb_test.data.model.BaseMovieModel
-import com.example.spectrum_themoviedb_test.data.model.UiMovieItem
+import com.example.spectrum_themoviedb_test.data.model.BaseUiMovieModel
 import com.example.spectrum_themoviedb_test.util.Constants.BASE_IMAGE_PATH
 import java.util.Locale
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun MovieCard(
-    movieItem: BaseMovieModel,
+    movieItem: BaseUiMovieModel,
     onClick: (movieId: Int) -> Unit
 ) {
     Card(

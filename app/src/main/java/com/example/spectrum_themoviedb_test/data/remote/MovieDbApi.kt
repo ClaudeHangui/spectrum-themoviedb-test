@@ -1,7 +1,7 @@
 package com.example.spectrum_themoviedb_test.data.remote
 
-import com.example.spectrum_themoviedb_test.data.GenreApiResponse
-import com.example.spectrum_themoviedb_test.data.MovieDetailApiResponse
+import com.example.spectrum_themoviedb_test.data.model.GenreApiResponse
+import com.example.spectrum_themoviedb_test.data.model.MovieDetailApiResponse
 import com.example.spectrum_themoviedb_test.data.model.MoviesApiResponse
 import com.example.spectrum_themoviedb_test.data.model.PopularMoviesApiResponse
 import retrofit2.http.GET

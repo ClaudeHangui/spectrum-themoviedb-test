@@ -14,12 +14,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.spectrum_themoviedb_test.R
-import com.example.spectrum_themoviedb_test.data.model.BaseMovieModel
+import com.example.spectrum_themoviedb_test.data.model.BaseUiMovieModel
 import com.example.spectrum_themoviedb_test.ui.commons.InternetConnectivityManger
 import com.example.spectrum_themoviedb_test.ui.utils.isInternetError
 
 @Composable
-fun BoxScope.FailureState(throwable: Throwable?, data: List<BaseMovieModel>, refreshData: () -> Unit){
+fun BoxScope.FailureState(throwable: Throwable?, data: List<BaseUiMovieModel>, refreshData: () -> Unit){
     val contextForToast = LocalContext.current.applicationContext
     throwable?.let { error ->
         val errorMsg = if (error.isInternetError()) {

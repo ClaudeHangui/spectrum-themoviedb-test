@@ -2,7 +2,7 @@ package com.example.spectrum_themoviedb_test
 
 
 import com.example.spectrum_themoviedb_test.data.model.Dates
-import com.example.spectrum_themoviedb_test.data.MovieDetailApiResponse
+import com.example.spectrum_themoviedb_test.data.model.MovieDetailApiResponse
 import com.example.spectrum_themoviedb_test.data.model.MovieListItem
 import com.example.spectrum_themoviedb_test.data.model.MoviesApiResponse
 import com.example.spectrum_themoviedb_test.data.MoviesRepository

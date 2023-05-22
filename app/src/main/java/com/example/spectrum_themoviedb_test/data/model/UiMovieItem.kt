@@ -8,7 +8,7 @@ data class UiMovieItem(
     override val voteCount: Int?,
     override val releaseDate: String?,
     override val genre: List<String>
-): BaseMovieModel {
+): BaseUiMovieModel {
     companion object {
         val NO_DATA = UiMovieItem(
             movieId = 0,

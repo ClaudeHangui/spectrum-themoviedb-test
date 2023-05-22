@@ -32,7 +32,7 @@ data class UiMovieDetail(
     var spokenLanguages: List<String>?,
     @Ignore
     var bookmarked: Boolean = false
-): BaseMovieModel{
+): BaseUiMovieModel{
     companion object {
         val EMPTY = UiMovieDetail()
     }
