@@ -5,6 +5,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import androidx.room.Room
+import com.example.spectrum_themoviedb_test.data.MoviesRepository
 import com.example.spectrum_themoviedb_test.data.local.MoviesDao
 import com.example.spectrum_themoviedb_test.data.local.SpectrumMovieDb
 import com.example.spectrum_themoviedb_test.data.mapper.MovieDetailMapper
@@ -23,12 +24,15 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Qualifier
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -124,5 +128,38 @@ abstract class CoreModule {
         @Provides
         fun provideMovieDetailMapper(dateFormatterHelper: DateFormatterHelper) =
             MovieDetailMapper(dateFormatterHelper)
+
+        @DefaultDispatcher
+        @Provides
+        fun providesDefaultDispatcher(): CoroutineDispatcher = Dispatchers.Default
+
+        @IoDispatcher
+        @Provides
+        fun providesIoDispatcher(): CoroutineDispatcher = Dispatchers.IO
+
+        @MainDispatcher
+        @Provides
+        fun providesMainDispatcher(): CoroutineDispatcher = Dispatchers.Main
+
+        @Provides
+        fun provideRepository(
+            api: MovieDbApi,
+            movieListMapper: MovieListMapper,
+            movieDetailMapper: MovieDetailMapper,
+            dao: MoviesDao,
+            @IoDispatcher ioDispatcher: CoroutineDispatcher
+        ) = MoviesRepository(dao, movieListMapper, movieDetailMapper, api, ioDispatcher)
     }
 }
+
+@Retention(AnnotationRetention.BINARY)
+@Qualifier
+annotation class DefaultDispatcher
+
+@Retention(AnnotationRetention.BINARY)
+@Qualifier
+annotation class IoDispatcher
+
+@Retention(AnnotationRetention.BINARY)
+@Qualifier
+annotation class MainDispatcher
