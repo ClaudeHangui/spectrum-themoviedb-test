@@ -55,6 +55,9 @@ class MoviesNowPlayingVM @Inject constructor(
                 _nowPlayingState.update {
                     it.copy(throwable = error, isLoading = false)
                 }
+                _paginationState.update {
+                    it.copy(isLoading = false)
+                }
             }.collect { response ->
                 Log.e("MoviesVM", "updating the local mutable flow")
                 _nowPlayingState.update { movieState ->

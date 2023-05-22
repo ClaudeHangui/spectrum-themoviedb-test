@@ -1,4 +1,4 @@
-package com.example.spectrum_themoviedb_test.ui.views
+package com.example.spectrum_themoviedb_test.ui.main
 
 import android.annotation.SuppressLint
 import android.os.Bundle

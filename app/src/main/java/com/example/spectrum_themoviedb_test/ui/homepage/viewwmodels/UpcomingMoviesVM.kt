@@ -51,6 +51,9 @@ class UpcomingMoviesVM @Inject constructor(
                 _upcomingMoviesState.update {
                     it.copy(throwable = error, isLoading = false)
                 }
+                _paginationState.update {
+                    it.copy(isLoading = false)
+                }
             }.collect { response ->
                 _upcomingMoviesState.update { popularMoviesState ->
                     popularMoviesState.copy(

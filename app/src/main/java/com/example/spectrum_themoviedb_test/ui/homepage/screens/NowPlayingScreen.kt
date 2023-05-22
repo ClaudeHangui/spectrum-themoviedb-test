@@ -110,6 +110,7 @@ fun NowPlayingScreen(
 fun BoxScope.NowPlayingScreenState(viewModel: MoviesNowPlayingVM = hiltViewModel()) {
     val state by viewModel.nowPlayingState.collectAsStateWithLifecycle()
     state.let {
+        Log.e("NowPlayingScreen", "state: $it")
         if (it.isLoading) {
             ShowLoader()
         }

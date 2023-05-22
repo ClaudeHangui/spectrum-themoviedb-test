@@ -35,7 +35,7 @@ import java.util.concurrent.TimeUnit
 @InstallIn(SingletonComponent::class)
 abstract class CoreModule {
     companion object {
-        private const val TIMEOUT = 60L
+        private const val TIMEOUT = 1L
         private const val API_KEY = "api_key"
 
         @Provides

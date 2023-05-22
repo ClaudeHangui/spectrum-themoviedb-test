@@ -50,6 +50,9 @@ class PopularMoviesVM @Inject constructor(
                 _popularMoviesState.update {
                     it.copy(throwable = error, isLoading = false)
                 }
+                _paginationState.update {
+                    it.copy(isLoading = false)
+                }
             }.collect { response ->
                 _popularMoviesState.update { popularMoviesState ->
                     popularMoviesState.copy(

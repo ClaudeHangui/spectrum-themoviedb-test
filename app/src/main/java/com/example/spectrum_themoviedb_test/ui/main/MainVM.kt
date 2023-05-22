@@ -1,4 +1,4 @@
-package com.example.spectrum_themoviedb_test.ui.views
+package com.example.spectrum_themoviedb_test.ui.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
