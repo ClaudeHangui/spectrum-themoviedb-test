@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.spectrum_themoviedb_test.ui.coreNavigationGraph.Destinations
-import com.example.spectrum_themoviedb_test.ui.homepage.navigation.BottomBarNav
 import com.example.spectrum_themoviedb_test.ui.coreNavigationGraph.HomeGraph
+import com.example.spectrum_themoviedb_test.ui.homepage.navigation.BottomBarNav
 import com.example.spectrum_themoviedb_test.ui.homepage.navigation.screens
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 
