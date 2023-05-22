@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.spectrum_themoviedb_test.R
+import com.example.spectrum_themoviedb_test.ui.commons.ShowLoader
 
 
 @Composable
@@ -52,21 +53,6 @@ fun BoxScope.FavoriteMoviesScreenState(
                     .align(Alignment.Center)
             )
         }
-    }
-}
-
-@Composable
-fun ShowLoader() {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        CircularProgressIndicator(
-            modifier = Modifier.size(size = 64.dp),
-            color = Color.Magenta,
-            strokeWidth = 6.dp
-        )
     }
 }
 

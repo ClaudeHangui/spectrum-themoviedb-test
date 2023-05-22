@@ -11,30 +11,30 @@ import kotlinx.serialization.Serializable
 data class UiMovieDetail(
     @ColumnInfo(name = "id")
     @PrimaryKey override var movieId: Int = -1,
-    override var title: String = "",
+    override var title: String?,
     @ColumnInfo(name = "backdrop_path")
-    var backDropPath: String? = null,
+    var backDropPath: String?,
     @ColumnInfo(name = "poster_path")
-    override var posterPath: String? = null,
+    override var posterPath: String?,
     @ColumnInfo(name = "vote_average")
-    override var voteAverage: Double = 0.0,
+    override var voteAverage: Double?,
     @ColumnInfo(name = "vote_count")
-    override var voteCount: Int = 0,
+    override var voteCount: Int?,
     @ColumnInfo(name = "release_date")
-    override var releaseDate: String = "",
+    override var releaseDate: String?,
     @ColumnInfo(name = "movie_genres")
-    override var genre: List<String> = emptyList(),
-    var overview: String = "",
-    var status: String = "",
+    override var genre: List<String>?,
+    var overview: String?,
+    var status: String?,
     @ColumnInfo(name = "tag_line")
-    var tagLine: String = "",
+    var tagLine: String?,
     @ColumnInfo(name = "spoken_languages")
-    var spokenLanguages: List<String> = emptyList(),
+    var spokenLanguages: List<String>?,
     @Ignore
     var bookmarked: Boolean = false
 ): BaseMovieModel{
     companion object {
         val EMPTY = UiMovieDetail()
     }
-    constructor(): this(-1, "", "", "", 0.0, 0, "", emptyList(), "", "", "", emptyList(), false)
+    constructor(): this(-1, null, null, null, null, null, null, null, null, null, null, null, false)
 }

@@ -1,4 +1,4 @@
-package com.example.spectrum_themoviedb_test.ui.homepage.components
+package com.example.spectrum_themoviedb_test.ui.commons
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

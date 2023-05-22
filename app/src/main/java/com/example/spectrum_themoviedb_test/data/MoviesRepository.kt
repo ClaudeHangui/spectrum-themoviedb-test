@@ -66,8 +66,12 @@ class MoviesRepository @Inject constructor(
     }.flowOn(Dispatchers.IO)
 
     suspend fun fetchMovieGenres() {
-        val apiResponse = api.getMovieGenres()
-        dao.insertAllGenres(apiResponse.genres)
+        try {
+            val apiResponse = api.getMovieGenres()
+            dao.insertAllGenres(apiResponse.genres)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
 }

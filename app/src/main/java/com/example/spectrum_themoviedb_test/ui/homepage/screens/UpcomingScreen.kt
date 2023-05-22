@@ -36,7 +36,7 @@ import com.example.spectrum_themoviedb_test.ui.commons.InternetConnectivityMange
 import com.example.spectrum_themoviedb_test.ui.coreNavigationGraph.Destinations
 import com.example.spectrum_themoviedb_test.ui.homepage.components.InfiniteListHandler
 import com.example.spectrum_themoviedb_test.ui.homepage.components.MovieCard
-import com.example.spectrum_themoviedb_test.ui.homepage.components.ShowLoader
+import com.example.spectrum_themoviedb_test.ui.commons.ShowLoader
 import com.example.spectrum_themoviedb_test.ui.homepage.viewwmodels.UpcomingMoviesVM
 import com.example.spectrum_themoviedb_test.ui.utils.isInternetError
 import com.google.accompanist.swiperefresh.SwipeRefresh

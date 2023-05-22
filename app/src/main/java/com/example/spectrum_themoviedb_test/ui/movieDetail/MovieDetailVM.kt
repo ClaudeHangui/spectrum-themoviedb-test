@@ -35,7 +35,7 @@ class MovieDetailVM @Inject constructor( private val moviesRepository: MoviesRep
         }.catch { error ->
             Log.e("MovieDetailVM", "error: ${error.message}")
             _movieDetailState.update {
-                it.copy(throwable = error.message ?: "Something went wrong", isLoading = false)
+                it.copy(throwable = error, isLoading = false)
             }
         }.collect { response ->
             _movieDetailState.update { oldData ->

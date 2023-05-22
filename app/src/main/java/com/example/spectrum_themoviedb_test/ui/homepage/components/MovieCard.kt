@@ -74,145 +74,153 @@ fun MovieCard(
                 contentDescription = "film poster"
             )
 
-            Box(
-                modifier = Modifier
-                    .wrapContentWidth()
-                    .wrapContentHeight()
-                    .padding(top = 4.dp, end = 4.dp)
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(Color(R.color.release_date_background))
-                    .clickable { }
-                    .padding(4.dp)
-                    .constrainAs(releasedDateText) {
-                        top.linkTo(poster.top)
-                        end.linkTo(poster.end)
-                        visibility = if (movieItem.releaseDate.isEmpty()) {
-                            Visibility.Gone
-                        } else {
-                            Visibility.Visible
+            movieItem.releaseDate?.let { releasedDate ->
+                Box(
+                    modifier = Modifier
+                        .wrapContentWidth()
+                        .wrapContentHeight()
+                        .padding(top = 4.dp, end = 4.dp)
+                        .clip(RoundedCornerShape(10.dp))
+                        .background(Color(R.color.release_date_background))
+                        .clickable { }
+                        .padding(4.dp)
+                        .constrainAs(releasedDateText) {
+                            top.linkTo(poster.top)
+                            end.linkTo(poster.end)
+                            visibility = if (releasedDate.isEmpty()) {
+                                Visibility.Gone
+                            } else {
+                                Visibility.Visible
+                            }
                         }
-                    }
-            ) {
-                Text(
-                    text = movieItem.releaseDate,
-                    style = TextStyle(
-                        color = Color.White,
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = MaterialTheme.typography.h4.fontFamily,
-                    ),
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
-
-            Text(
-                text = if (movieItem.voteAverage <= 0.0) stringResource(id = R.string.not_available) else
-                    "${getValue(movieItem.voteAverage)}/10",
-                style = TextStyle(
-                    color = Color.White,
-                    fontSize = 10.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = MaterialTheme.typography.h4.fontFamily
-                ),
-                modifier = Modifier
-                    .padding(4.dp, 2.dp, 4.dp, 2.dp)
-                    .wrapContentWidth()
-                    .wrapContentHeight()
-                    .clickable { }
-                    .padding(bottom = 4.dp, start = 4.dp)
-                    .constrainAs(averageCount) {
-                        bottom.linkTo(poster.bottom)
-                        start.linkTo(poster.start)
-                    }
-            )
-
-
-
-            Text(
-                text = pluralStringResource(id = R.plurals.vote_count, count = movieItem.voteCount, movieItem.voteCount),
-                style = TextStyle(
-                    color = Color.White,
-                    fontSize = 10.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = MaterialTheme.typography.h4.fontFamily
-                ),
-                modifier = Modifier
-                    .padding(4.dp, 2.dp, 4.dp, 2.dp)
-                    .wrapContentWidth()
-                    .wrapContentHeight()
-                    .clickable { }
-                    .padding(bottom = 4.dp, end = 4.dp)
-                    .constrainAs(averageViews) {
-                        bottom.linkTo(poster.bottom)
-                        end.linkTo(poster.end)
-                    }
-            )
-
-
-
-            FlowRow(
-                maxItemsInEachRow = 3,
-                horizontalArrangement = Arrangement.Start,
-                modifier = Modifier
-                    .padding(bottom = 8.dp, top = 8.dp)
-                    .constrainAs(movieGenres) {
-                        top.linkTo(poster.bottom)
-                        start.linkTo(poster.start)
-                        end.linkTo(poster.end)
-                        visibility = if (movieItem.genre.isEmpty()) {
-                            Visibility.Gone
-                        } else {
-                            Visibility.Visible
-                        }
-                    }
-
-            ) {
-                repeat(movieItem.genre.size) {
+                ) {
                     Text(
-                        text = movieItem.genre[it],
+                        text = releasedDate,
                         style = TextStyle(
-                            color = Color.DarkGray,
-                            fontSize = 12.sp,
-                            fontFamily = MaterialTheme.typography.h6.fontFamily,
-                            textAlign = TextAlign.Left
+                            color = Color.White,
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = MaterialTheme.typography.h4.fontFamily,
                         ),
-                        modifier = Modifier
-                            .padding(4.dp, 2.dp, 4.dp, 2.dp)
-                            .wrapContentWidth()
-                            .wrapContentHeight()
-                            .clickable { }
-                            .padding(top = 4.dp, end = 4.dp)
+                        modifier = Modifier.align(Alignment.Center)
                     )
                 }
             }
 
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .padding(top = 10.dp)
-                    .clip(RoundedCornerShape(bottomEnd = 10.dp, bottomStart = 10.dp))
-                    .background(Color(R.color.title_background))
-                    .clickable { }
-                    .padding(bottom = 8.dp, top = 8.dp, start = 16.dp, end = 16.dp)
-                    .constrainAs(movieTitle) {
-                        top.linkTo(movieGenres.bottom)
-                        start.linkTo(movieGenres.start)
-                        end.linkTo(movieGenres.end)
-                        bottom.linkTo(parent.bottom)
-                    }
-            ) {
+
+            movieItem.voteAverage?.let { votes ->
                 Text(
-                    text = movieItem.title,
+                    text = if (votes <= 0.0) stringResource(id = R.string.not_available) else
+                        "${getValue(votes)}/10",
                     style = TextStyle(
                         color = Color.White,
-                        fontSize = 14.sp,
+                        fontSize = 10.sp,
                         fontWeight = FontWeight.Bold,
-                        fontFamily = MaterialTheme.typography.h4.fontFamily,
+                        fontFamily = MaterialTheme.typography.h4.fontFamily
                     ),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.align(Alignment.Center)
+                    modifier = Modifier
+                        .padding(4.dp, 2.dp, 4.dp, 2.dp)
+                        .wrapContentWidth()
+                        .wrapContentHeight()
+                        .clickable { }
+                        .padding(bottom = 4.dp, start = 4.dp)
+                        .constrainAs(averageCount) {
+                            bottom.linkTo(poster.bottom)
+                            start.linkTo(poster.start)
+                        }
                 )
+            }
+
+
+            movieItem.voteCount?.let { votes ->
+                Text(
+                    text = pluralStringResource(id = R.plurals.vote_count, count = votes, votes),
+                    style = TextStyle(
+                        color = Color.White,
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = MaterialTheme.typography.h4.fontFamily
+                    ),
+                    modifier = Modifier
+                        .padding(4.dp, 2.dp, 4.dp, 2.dp)
+                        .wrapContentWidth()
+                        .wrapContentHeight()
+                        .clickable { }
+                        .padding(bottom = 4.dp, end = 4.dp)
+                        .constrainAs(averageViews) {
+                            bottom.linkTo(poster.bottom)
+                            end.linkTo(poster.end)
+                        }
+                )
+            }
+
+            movieItem.genre?.let { genres ->
+                FlowRow(
+                    maxItemsInEachRow = 3,
+                    horizontalArrangement = Arrangement.Start,
+                    modifier = Modifier
+                        .padding(bottom = 8.dp, top = 8.dp)
+                        .constrainAs(movieGenres) {
+                            top.linkTo(poster.bottom)
+                            start.linkTo(poster.start)
+                            end.linkTo(poster.end)
+                            visibility = if (genres.isEmpty()) {
+                                Visibility.Gone
+                            } else {
+                                Visibility.Visible
+                            }
+                        }
+
+                ) {
+                    repeat(genres.size) {
+                        Text(
+                            text = genres[it],
+                            style = TextStyle(
+                                color = Color.DarkGray,
+                                fontSize = 12.sp,
+                                fontFamily = MaterialTheme.typography.h6.fontFamily,
+                                textAlign = TextAlign.Left
+                            ),
+                            modifier = Modifier
+                                .padding(4.dp, 2.dp, 4.dp, 2.dp)
+                                .wrapContentWidth()
+                                .wrapContentHeight()
+                                .clickable { }
+                                .padding(top = 4.dp, end = 4.dp)
+                        )
+                    }
+                }
+            }
+
+            movieItem.title?.let { title ->
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .padding(top = 10.dp)
+                        .clip(RoundedCornerShape(bottomEnd = 10.dp, bottomStart = 10.dp))
+                        .background(Color(R.color.title_background))
+                        .clickable { }
+                        .padding(bottom = 8.dp, top = 8.dp, start = 16.dp, end = 16.dp)
+                        .constrainAs(movieTitle) {
+                            top.linkTo(movieGenres.bottom)
+                            start.linkTo(movieGenres.start)
+                            end.linkTo(movieGenres.end)
+                            bottom.linkTo(parent.bottom)
+                        }
+                ) {
+                    Text(
+                        text = title,
+                        style = TextStyle(
+                            color = Color.White,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = MaterialTheme.typography.h4.fontFamily,
+                        ),
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
             }
         }
     }
