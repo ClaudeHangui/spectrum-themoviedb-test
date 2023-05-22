@@ -56,6 +56,7 @@ class SearchViewModel @Inject constructor(
                         isLoading = false
                     )
                 }
+                _paginationState.update { it.copy(isLoading = false) }
             }.collect { response ->
                 previousQuery = query
                 _searchedMoviesState.update { movieState ->
@@ -106,5 +107,9 @@ class SearchViewModel @Inject constructor(
         if (!_paginationState.value.endReached && _searchedMoviesState.value.movies.isNotEmpty()) {
             performQuery(previousQuery ?: "", _searchedMoviesState.value.nextPageToView)
         }
+    }
+
+    fun refreshSearchData(query: String) {
+        performQuery(query, 1)
     }
 }

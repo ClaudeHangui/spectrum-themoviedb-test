@@ -123,7 +123,7 @@ fun SearchMovieScreen(navigateBack: () -> Unit,
             }
         }
 
-        SearchScreenState()
+        SearchScreenState(query = searchMovie.value.text)
     }
 
 }

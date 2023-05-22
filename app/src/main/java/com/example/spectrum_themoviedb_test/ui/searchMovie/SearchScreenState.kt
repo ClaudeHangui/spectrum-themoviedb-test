@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -15,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -24,10 +22,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.spectrum_themoviedb_test.R
 import com.example.spectrum_themoviedb_test.ui.commons.ShowLoader
-import com.example.spectrum_themoviedb_test.ui.utils.isInternetError
+import com.example.spectrum_themoviedb_test.ui.homepage.components.FailureState
 
 @Composable
-fun BoxScope.SearchScreenState(
+fun BoxScope.SearchScreenState(query: String,
     viewModel: SearchViewModel = hiltViewModel()) {
     val state by viewModel.searchedMoviesState.collectAsStateWithLifecycle()
     state.let {
@@ -48,25 +46,17 @@ fun BoxScope.SearchScreenState(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp)
-                    .align(Alignment.Center),
+                    .align(Alignment.Center)
 
             )
         }
 
-        it.throwable?.let { error ->
-           Text(
-                text = if (error.isInternetError()) {
-                    stringResource(id = R.string.no_internet_connection)
-                } else {
-                    stringResource(id = R.string.something_went_wrong)
-                },
-                color = MaterialTheme.colorScheme.error,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp)
-                    .align(Alignment.Center)
-            )
+        FailureState(throwable = it.throwable, data = it.movies) {
+            if (it.movies.isEmpty()){
+                viewModel.refreshSearchData(query)
+            } else {
+                viewModel.loadMoreMovies()
+            }
         }
     }
 }
