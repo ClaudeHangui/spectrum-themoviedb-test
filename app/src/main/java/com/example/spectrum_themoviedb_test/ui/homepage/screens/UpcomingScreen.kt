@@ -112,7 +112,11 @@ fun BoxScope.UpcomingScreenState(viewModel: UpcomingMoviesVM = hiltViewModel()) 
             ShowLoader()
         }
         FailureState(throwable = it.throwable, data = it.movies) {
-            viewModel.loadMoreUpcomingMovies()
+            if (it.movies.isEmpty()) {
+                viewModel.loadMoreUpcomingMovies()
+            } else {
+                viewModel.refreshUpcomingScreen()
+            }
         }
     }
 }

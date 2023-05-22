@@ -116,7 +116,11 @@ fun BoxScope.NowPlayingScreenState(viewModel: MoviesNowPlayingVM = hiltViewModel
         }
 
         FailureState(throwable = it.throwable, data = state.movies) {
-            viewModel.refreshMovieList()
+            if (state.movies.isEmpty()) {
+                viewModel.refreshMovieList()
+            } else {
+                viewModel.loadMoreMovies()
+            }
         }
     }
 }

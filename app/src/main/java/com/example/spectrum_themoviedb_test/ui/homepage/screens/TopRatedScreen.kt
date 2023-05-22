@@ -111,7 +111,11 @@ fun BoxScope.TopRatedScreenState(viewModel: TopRatedMoviesVM = hiltViewModel()) 
             ShowLoader()
         }
         FailureState(throwable = it.throwable, data = it.movies) {
-            viewModel.refreshTopRatedScreen()
+            if (it.movies.isEmpty()) {
+                viewModel.refreshTopRatedScreen()
+            } else {
+                viewModel.loadMoreTopRatedMovies()
+            }
         }
     }
 }

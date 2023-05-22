@@ -9,7 +9,6 @@ import com.example.spectrum_themoviedb_test.data.local.MoviesDao
 import com.example.spectrum_themoviedb_test.data.local.SpectrumMovieDb
 import com.example.spectrum_themoviedb_test.data.mapper.MovieDetailMapper
 import com.example.spectrum_themoviedb_test.data.mapper.MovieListMapper
-import com.example.spectrum_themoviedb_test.data.remote.HttpFailureFactory
 import com.example.spectrum_themoviedb_test.data.remote.MovieDbApi
 import com.example.spectrum_themoviedb_test.util.Constants.BASE_URL
 import com.example.spectrum_themoviedb_test.util.Constants.DB_NAME
@@ -117,9 +116,6 @@ abstract class CoreModule {
 
         @Provides
         fun provideDateWrapper() = DateWrapper()
-
-        @Provides
-        fun provideHttpFailureFactory() = HttpFailureFactory()
 
         @Provides
         fun provideMovieListMapper(dao: MoviesDao, dateFormatterHelper: DateFormatterHelper) =

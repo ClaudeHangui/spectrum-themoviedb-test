@@ -112,7 +112,11 @@ fun BoxScope.PopularScreenState(viewModel: PopularMoviesVM = hiltViewModel()) {
             ShowLoader()
         }
         FailureState(throwable = it.throwable, data = it.movies) {
-            viewModel.refreshPopularScreen()
+            if (state.movies.isEmpty()){
+                viewModel.refreshPopularScreen()
+            } else {
+                viewModel.loadMorePopularMovies()
+            }
         }
     }
 }
