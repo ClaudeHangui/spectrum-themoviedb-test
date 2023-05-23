@@ -19,3 +19,10 @@ Tech Stack
 ![](/Users/claudehangui/Downloads/themoviedb-navigation-graph.png)
 
 
+App Constraints
+
+- The data displayed in the tabs are taken directly from a remote server, as such the data gets refreshed everytime
+- The data dissplayed from details screen is also fetched from the server
+
+
+
