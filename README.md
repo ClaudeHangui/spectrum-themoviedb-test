@@ -15,3 +15,7 @@ Tech Stack
 - Room
 - Jetpack Compose toolkit : ComposeUI, ComposeNavigation, Compose-Coil, Compose-ConstraintLayout, Compose-Tooling, Compose-Material(1 & 3)
 - Junit, Turbine and Kluent for unit tests
+
+![](/Users/claudehangui/Downloads/themoviedb-navigation-graph.png)
+
+
