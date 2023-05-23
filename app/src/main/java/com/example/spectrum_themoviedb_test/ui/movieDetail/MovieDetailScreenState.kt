@@ -24,6 +24,7 @@ import com.example.spectrum_themoviedb_test.ui.utils.isInternetError
 
 @Composable
 fun BoxScope.MovieDetailScreenState(
+    movieId: Int,
     viewModel: MovieDetailVM = hiltViewModel()
 ) {
     val state by viewModel.movieDetailState.collectAsStateWithLifecycle()
@@ -55,6 +56,7 @@ fun BoxScope.MovieDetailScreenState(
 
 
         InternetConnectivityManger {
+            viewModel.getMovie(movieId)
             //viewModel.refreshTopRatedScreen()
         }
     }

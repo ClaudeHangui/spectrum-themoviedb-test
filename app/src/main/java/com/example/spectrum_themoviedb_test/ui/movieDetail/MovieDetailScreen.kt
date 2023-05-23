@@ -464,7 +464,7 @@ fun MovieDetailScreen(
 
         }
 
-        MovieDetailScreenState()
+        MovieDetailScreenState(movieId = movieId)
     }
 }
 
