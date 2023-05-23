@@ -1,7 +1,6 @@
 package com.example.spectrum_themoviedb_test.ui.movieDetail
 
 import android.util.Log
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.spectrum_themoviedb_test.data.MoviesRepository
@@ -18,9 +17,8 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class MovieDetailVM @Inject constructor( private val moviesRepository: MoviesRepository,
-                                         private val savedStateHandle: SavedStateHandle
-) : ViewModel() {
+class MovieDetailVM @Inject constructor(
+    private val moviesRepository: MoviesRepository) : ViewModel() {
 
 
     val _movieDetailState = MutableStateFlow(MovieDetailState.EMPTY)
@@ -40,24 +38,27 @@ class MovieDetailVM @Inject constructor( private val moviesRepository: MoviesRep
         }.collect { response ->
             _movieDetailState.update { oldData ->
                 oldData.copy(
-                movieDetail = response,
-                isLoading = false) }
-            _bookmarkState.update { it.copy(isBookmarked = response.bookmarked) }
+                    movieDetail = response,
+                    throwable = null,
+                    isLoading = false
+                )
+            }
         }
     }
 
-    fun setBookmarkState(movieId: UiMovieDetail, bookmarkButtonState: Boolean) = viewModelScope.launch(Dispatchers.Main){
-        val rowId = withContext(Dispatchers.IO){
-            if(bookmarkButtonState){
-                moviesRepository.addMovieToBookmarks(movieId)
-            } else {
-                moviesRepository.removeMovieFromBookmarks(movieId)
+    fun setBookmarkState(movieId: UiMovieDetail, bookmarkButtonState: Boolean) =
+        viewModelScope.launch(Dispatchers.Main) {
+            val rowId = withContext(Dispatchers.IO) {
+                if (bookmarkButtonState) {
+                    moviesRepository.addMovieToBookmarks(movieId)
+                } else {
+                    moviesRepository.removeMovieFromBookmarks(movieId)
+                }
+            }
+            if (rowId > 0) {
+                _movieDetailState.update { it.copy(movieDetail = movieId.copy(bookmarked = rowId > 1)) }
             }
         }
-        if (rowId > 0) {
-           _movieDetailState.update { it.copy(movieDetail = movieId.copy(bookmarked = rowId > 1)) }
-        }
-    }
 }
 
 data class BookmarkMovieState(

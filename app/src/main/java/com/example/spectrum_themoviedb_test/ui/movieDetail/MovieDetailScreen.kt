@@ -1,5 +1,6 @@
 package com.example.spectrum_themoviedb_test.ui.movieDetail
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,7 +18,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -26,7 +26,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Favorite
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -35,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -52,6 +52,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.example.spectrum_themoviedb_test.R
+import com.example.spectrum_themoviedb_test.data.model.UiMovieDetail
 import com.example.spectrum_themoviedb_test.util.Constants.BASE_IMAGE_PATH
 import java.util.Locale
 
@@ -64,6 +65,7 @@ fun MovieDetailScreen(
 ) {
 
     val scrollState = rememberScrollState()
+    val contextForToast = LocalContext.current.applicationContext
 
     val state by movieDetailVM.movieDetailState.collectAsStateWithLifecycle()
 
@@ -118,10 +120,20 @@ fun MovieDetailScreen(
                     contentScale = ContentScale.Crop
                 )
 
+                val bookmarkError = stringResource(id = R.string.bookmark_error)
                 IconButton(
                     onClick = {
-                        bookmarkButtonState = !bookmarkButtonState
-                        movieDetailVM.setBookmarkState(movie, bookmarkButtonState)
+                        if (state.throwable != null && state.movieDetail == UiMovieDetail.EMPTY) {
+                            Toast.makeText(
+                                contextForToast,
+                                bookmarkError,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            bookmarkButtonState = !bookmarkButtonState
+                            movieDetailVM.setBookmarkState(movie, bookmarkButtonState)
+                        }
+
                     },
                     modifier = Modifier
                         .constrainAs(bookmark) {
@@ -336,7 +348,12 @@ fun MovieDetailScreen(
                                     modifier = Modifier
                                         .wrapContentWidth()
                                         .wrapContentHeight()
-                                        .padding(start = 8.dp, end = 8.dp, top = 2.dp, bottom = 2.dp)
+                                        .padding(
+                                            start = 8.dp,
+                                            end = 8.dp,
+                                            top = 2.dp,
+                                            bottom = 2.dp
+                                        )
                                 )
                             }
                         }
